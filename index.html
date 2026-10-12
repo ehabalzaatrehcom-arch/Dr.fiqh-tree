@@ -14,7 +14,6 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
 
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;900&family=Cairo:wght@700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
@@ -190,16 +189,16 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 800;
         }
 
         .stat-badge {
             background: #e0f2fe;
             color: #0284c7;
-            padding: 3px 8px;
+            padding: 3px 10px;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 900;
         }
 
@@ -211,7 +210,7 @@
         .stat-badge-total {
             background: #dcfce7;
             color: #15803d;
-            font-size: 17px;
+            font-size: 18px;
         }
 
         body.dark-mode .stat-badge-total {
@@ -222,7 +221,7 @@
         .stat-badge-remaining {
             background: #fee2e2;
             color: #dc2626;
-            font-size: 17px;
+            font-size: 18px;
         }
 
         body.dark-mode .stat-badge-remaining {
@@ -230,100 +229,10 @@
             color: #fca5a5;
         }
 
-        .uni-hours-prominent-card {
-            max-width: 1100px;
-            margin: 0 auto 12px auto;
-            background: #eff6ff;
-            border: 2px solid #3b82f6;
-            border-radius: 14px;
-            padding: 12px 16px;
-            box-shadow: 0 3px 10px rgba(59, 130, 246, 0.12);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-
-        body.dark-mode .uni-hours-prominent-card {
-            background: #172554;
-            border-color: #60a5fa;
-        }
-
-        .uni-card-info {
-            flex: 1;
-            min-width: 280px;
-        }
-
-        .uni-card-title {
-            font-size: 14.5px;
-            font-weight: 900;
-            color: #1d4ed8;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        body.dark-mode .uni-card-title {
-            color: #93c5fd;
-        }
-
-        .uni-card-note {
-            font-size: 12.5px;
-            font-weight: 700;
-            color: #334155;
-            line-height: 1.5;
-        }
-
-        body.dark-mode .uni-card-note {
-            color: #cbd5e1;
-        }
-
-        .uni-card-input-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #ffffff;
-            border: 2px solid #2563eb;
-            padding: 6px 14px;
-            border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.15);
-        }
-
-        body.dark-mode .uni-card-input-box {
-            background: #1e293b;
-            border-color: #60a5fa;
-        }
-
-        .uni-hours-input {
-            width: 65px;
-            padding: 5px 8px;
-            font-size: 18px;
-            font-weight: 900;
-            border-radius: 8px;
-            border: 2px solid #2563eb;
-            text-align: center;
-            background: #f8fafc;
-            color: #1d4ed8;
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        body.dark-mode .uni-hours-input {
-            background: #0f172a;
-            color: #93c5fd;
-            border-color: #60a5fa;
-        }
-
-        .uni-hours-input:focus {
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
-        }
-
         .controls-sub-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: stretch;
             gap: 12px;
             flex-wrap: wrap;
         }
@@ -333,10 +242,14 @@
             flex: 1;
             max-width: 320px;
             min-width: 220px;
+            display: flex;
+            align-items: center;
         }
 
         .search-input {
             width: 100%;
+            height: 100%;
+            min-height: 42px;
             padding: 7px 14px 7px 34px;
             border-radius: 20px;
             border: 1.5px solid var(--border-color);
@@ -351,10 +264,10 @@
             background: var(--wrapper-bg);
             border: 1.5px solid var(--border-color);
             border-radius: 12px;
-            padding: 8px 14px;
+            padding: 10px 14px;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
             flex: 2;
             min-width: 260px;
         }
@@ -363,13 +276,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12.5px;
+            font-size: 13px;
             font-weight: 800;
         }
 
         .progress-bar-container {
             width: 100%;
-            height: 9px;
+            height: 10px;
             background: #e2e8f0;
             border-radius: 10px;
             overflow: hidden;
@@ -383,6 +296,24 @@
             background: linear-gradient(90deg, #0284c7, #10b981);
             border-radius: 10px;
             transition: width 0.4s ease;
+        }
+
+        .progress-exclusion-note {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #b45309;
+            background: #fefce8;
+            border: 1px dashed #fde047;
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin-top: 2px;
+            line-height: 1.4;
+        }
+
+        body.dark-mode .progress-exclusion-note {
+            background: #422006;
+            border-color: #854d0e;
+            color: #fef08a;
         }
 
         .wrapper { 
@@ -599,7 +530,7 @@
 
         @media print {
             body { background: #ffffff !important; color: #000000 !important; }
-            .toolbar, .uni-hours-prominent-card, .modal-overlay { display: none !important; }
+            .toolbar, .modal-overlay { display: none !important; }
             .wrapper { border: none !important; box-shadow: none !important; width: 100% !important; }
         }
 
@@ -616,8 +547,6 @@
             .grid-main-fiqh, .grid-5, .grid-free { grid-template-columns: 1fr; gap: 8px; }
             .grid-osool-subs { grid-template-columns: 1fr; gap: 6px; }
             .stats-summary-card { flex-direction: column; align-items: stretch; }
-            .uni-hours-prominent-card { flex-direction: column; align-items: stretch; text-align: center; }
-            .uni-card-input-box { justify-content: center; }
         }
     </style>
 </head>
@@ -652,29 +581,18 @@
     <!-- شريط الأدوات والتحكم الشامل -->
     <div class="toolbar">
         <div class="toolbar-top-row">
+            <!-- كرت الإحصائيات معتمد كلياً على 102 ساعة تخصص -->
             <div class="stats-summary-card" style="width: 100%;">
                 <div class="stat-item">
                     <span>ساعات التخصص المنجزة:</span>
-                    <span class="stat-badge" id="passed-major-hours">0</span>
-                    <span style="font-size: 12px; color: #64748b;">من 102</span>
+                    <span class="stat-badge stat-badge-total" id="passed-major-hours">0</span>
+                    <span style="font-size: 13px; font-weight: 800; color: #15803d;">/ 102 ساعة</span>
                 </div>
 
                 <div class="stat-item">
-                    <span>متطلبات الجامعة المنجزة:</span>
-                    <span class="stat-badge" id="passed-uni-badge" style="background:#e0f2fe; color:#0284c7;">0</span>
-                    <span style="font-size: 12px; color: #64748b;">من 30</span>
-                </div>
-
-                <div class="stat-item">
-                    <span>المجموع الكلي المنجز:</span>
-                    <span class="stat-badge stat-badge-total" id="passed-total-hours">0</span>
-                    <span style="font-size: 12px; color: #15803d;">/ 132</span>
-                </div>
-
-                <div class="stat-item">
-                    <span>الساعات المتبقية للتخرج:</span>
-                    <span class="stat-badge stat-badge-remaining" id="remaining-hours-badge">132</span>
-                    <span style="font-size: 12px; color: #dc2626;">ساعة</span>
+                    <span>الساعات المتبقية من التخصص:</span>
+                    <span class="stat-badge stat-badge-remaining" id="remaining-hours-badge">102</span>
+                    <span style="font-size: 13px; font-weight: 800; color: #dc2626;">ساعة</span>
                 </div>
             </div>
         </div>
@@ -685,7 +603,6 @@
                 <button class="btn" onclick="openShareModal()">📲 مشاركة</button>
                 <button class="btn" id="btn-toggle-available" onclick="toggleAvailableCourses()">🔓 المتاح للتسجيل</button>
                 <button class="btn" onclick="openReportModal()">📄 تقرير بالمواد المجتازة</button>
-                <button class="btn" onclick="downloadImage()">📥 تحميل كصورة</button>
                 <button class="btn" onclick="window.print()">🖨️ طباعة الخطة</button>
                 <button class="btn" id="btn-dark-mode" onclick="toggleDarkMode()">🌙 النمط الليلي</button>
             </div>
@@ -698,11 +615,15 @@
         <div class="controls-sub-row">
             <div class="progress-card">
                 <div class="progress-labels">
-                    <span>نسبة إنجاز الخطة الإجمالية (132 ساعة):</span>
+                    <span>نسبة إنجاز مساقات التخصص (من أصل 102 ساعة):</span>
                     <span id="progress-percentage-text" style="color: #0284c7; font-weight: 900;">0%</span>
                 </div>
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" id="progress-bar"></div>
+                </div>
+                <!-- الملاحظة التوضيحية الخاصة باستثناء متطلبات الجامعة -->
+                <div class="progress-exclusion-note">
+                    📌 <strong>ملاحظة:</strong> تم استثناء متطلبات الجامعة (الإجبارية والاختيارية) والمواد الحرة بمجموع (30) ساعة من شريط الإنجاز هذا، وهو مخصص لاحتساب مواد التخصص (102 ساعة) فقط.
                 </div>
             </div>
 
@@ -712,27 +633,10 @@
         </div>
     </div>
 
-    <!-- كرت متطلبات الجامعة البارز -->
-    <div class="uni-hours-prominent-card">
-        <div class="uni-card-info">
-            <div class="uni-card-title">
-                🏛️ ساعات متطلبات الجامعة المنجزة (30 ساعة إجمالاً)
-            </div>
-            <div class="uni-card-note">
-                ✍️ <strong>ملاحظة للطالب:</strong> يُرجى كتابة عدد الساعات التي اجتزتها من متطلبات الجامعة هنا يدوياً (سواء الإجبارية أو الاختيارية بحد أقصى 30 ساعة) ليتم احتسابها تلقائياً مع ساعات الشجرة وإكمال الـ 132 ساعة.
-            </div>
-        </div>
-        <div class="uni-card-input-box">
-            <span style="font-size: 13.5px; font-weight: 800; color: #1e293b;">أدخل ساعاتك هنا:</span>
-            <input type="number" id="uni-hours-input" class="uni-hours-input" min="0" max="30" value="0" oninput="handleUniHoursChange(this)">
-            <span style="font-size: 13px; font-weight: 800; color: #64748b;">/ 30 ساعة</span>
-        </div>
-    </div>
-
     <div class="wrapper" id="plan-container">
         <div class="header">
             <h1>الخطة الشجرية لتخصص الفقه وأصوله</h1>
-            <p>جامعة عمان العربية — كلية الشريعة (132 ساعة معتمدة: 102 تخصص + 30 متطلبات جامعة)</p>
+            <p>جامعة عمان العربية — كلية الشريعة (102 ساعة تخصص معتمدة في الخطة الشجرية)</p>
         </div>
 
         <!-- 1. مسار الفقه العام وأصول الفقه -->
@@ -996,27 +900,25 @@
                 <button class="btn" style="justify-content: center; padding: 10px; font-size: 14px;" onclick="shareDirectWhatsApp()">💬 مشاركة عبر واتساب</button>
                 <button class="btn" style="justify-content: center; padding: 10px; font-size: 14px;" onclick="copyPlanLink()">📋 نسخ رابط الخطة</button>
             </div>
-            <button class="modal-btn-close" onclick="closeModal('shareModal')">إغلاق</button>
+            <button class="btn" style="background: #64748b; color: #ffffff; padding: 8px 22px; border-radius: 20px; margin: 12px auto 0 auto; display: block;" onclick="closeModal('shareModal')">إغلاق</button>
         </div>
     </div>
 
-    <!-- نافذة تهنئة التخرج -->
+    <!-- نافذة تهنئة إتمام مواد التخصص -->
     <div class="modal-overlay" id="gradModal">
         <div class="modal-box" style="text-align: center; border-color: #10b981;">
             <div style="font-size: 55px;">🎓</div>
-            <div style="font-size: 24px; font-weight: 900; color: #065f46; margin: 8px 0;">مبارك التخرج!</div>
+            <div style="font-size: 24px; font-weight: 900; color: #065f46; margin: 8px 0;">مبارك إتمام مواد التخصص!</div>
             <div style="font-size: 15px; line-height: 1.6; font-weight: 700; margin-bottom: 18px;">
-                أتممت بحمد الله جميع ساعات تخصص الفقه وأصوله والمتطلبات (132 ساعة معتمدة) بنجاح.<br>
+                أتممت بحمد الله جميع ساعات تخصص الفقه وأصوله (102 ساعة معتمدة) بنجاح.<br>
                 بارك الله بك ونفع بك الأمة والدين 🌿
             </div>
-            <button class="modal-btn-close" style="background: #10b981;" onclick="closeModal('gradModal')">تقبّل الله ونفع بكم 🌿</button>
+            <button class="btn" style="background: #10b981; color: #ffffff; padding: 8px 22px; border-radius: 20px; margin: 12px auto 0 auto; display: block;" onclick="closeModal('gradModal')">تقبّل الله ونفع بكم 🌿</button>
         </div>
     </div>
 
     <script>
         let majorHours = 0;
-        let uniHours = 0;
-        let totalHours = 0;
         let graduationCelebrated = false;
         let showAvailableState = false;
         let deferredPrompt = null;
@@ -1139,19 +1041,6 @@
             }
         }
 
-        function handleUniHoursChange(input) {
-            let val = parseInt(input.value) || 0;
-            if (val < 0) val = 0;
-            if (val > 30) {
-                alert('⚠️ الحد الأقصى لمتطلبات الجامعة هو 30 ساعة معتمدة فقط.');
-                val = 30;
-            }
-            input.value = val;
-            uniHours = val;
-            localStorage.setItem('fiqhPlanUniHours', val);
-            updateHours();
-        }
-
         function saveProgress() {
             const completedIds = [];
             document.querySelectorAll('.box.completed').forEach(box => {
@@ -1172,12 +1061,6 @@
                 } catch(e) { console.error(e); }
             }
 
-            const savedUni = localStorage.getItem('fiqhPlanUniHours');
-            if (savedUni !== null) {
-                uniHours = Math.min(30, Math.max(0, parseInt(savedUni) || 0));
-                document.getElementById('uni-hours-input').value = uniHours;
-            }
-
             updateHours();
             reorderFreeCourses();
         }
@@ -1190,22 +1073,18 @@
 
             majorHours = Math.min(102, majorHours);
             document.getElementById('passed-major-hours').textContent = majorHours;
-            document.getElementById('passed-uni-badge').textContent = uniHours;
 
-            totalHours = Math.min(132, majorHours + uniHours);
-            document.getElementById('passed-total-hours').textContent = totalHours;
-
-            const remaining = Math.max(0, 132 - totalHours);
+            const remaining = Math.max(0, 102 - majorHours);
             document.getElementById('remaining-hours-badge').textContent = remaining;
 
-            const percentage = Math.min(100, Math.round((totalHours / 132) * 100));
+            const percentage = Math.min(100, Math.round((majorHours / 102) * 100));
             document.getElementById('progress-percentage-text').textContent = percentage + '%';
             document.getElementById('progress-bar').style.width = percentage + '%';
 
-            if (totalHours >= 132 && !graduationCelebrated) {
+            if (majorHours >= 102 && !graduationCelebrated) {
                 graduationCelebrated = true;
                 triggerGraduation();
-            } else if (totalHours < 132) {
+            } else if (majorHours < 102) {
                 graduationCelebrated = false;
             }
 
@@ -1285,10 +1164,7 @@
         function resetAllCourses() {
             if (!confirm('هل أنت متأكد من رغبتك في إلغاء تحديد جميع المواد وتصفير الخطة؟')) return;
             document.querySelectorAll('.box.completed').forEach(b => b.classList.remove('completed'));
-            document.getElementById('uni-hours-input').value = 0;
-            uniHours = 0;
             localStorage.removeItem('fiqhPlanCompletedCourses');
-            localStorage.removeItem('fiqhPlanUniHours');
             graduationCelebrated = false;
             clearPathHighlight();
             updateHours();
@@ -1384,6 +1260,9 @@
                 });
             });
 
+            const remainingInMajor = Math.max(0, 102 - majorHours);
+            const percentageInMajor = Math.min(100, Math.round((majorHours / 102) * 100));
+
             const printWindow = window.open('', '_blank');
             printWindow.document.write(`
                 <html dir="rtl" lang="ar">
@@ -1393,21 +1272,64 @@
                     <style>
                         body { 
                             font-family: 'Tajawal', Tahoma, sans-serif !important; 
-                            padding: 30px; 
+                            padding: 25px 35px; 
                             direction: rtl; 
                             background: #ffffff;
                             color: #0f172a;
                         }
+                        
+                        .print-actions-bar {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            background: #f1f5f9;
+                            border: 1.5px solid #cbd5e1;
+                            padding: 10px 18px;
+                            border-radius: 12px;
+                            margin-bottom: 20px;
+                        }
+                        .btn-print-action {
+                            background: #0284c7;
+                            color: #ffffff;
+                            border: none;
+                            padding: 9px 24px;
+                            font-size: 14px;
+                            font-weight: 800;
+                            border-radius: 20px;
+                            cursor: pointer;
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 8px;
+                            transition: 0.2s;
+                        }
+                        .btn-print-action:hover {
+                            background: #0369a1;
+                        }
+
                         .header-wrap {
                             border-bottom: 2.5px solid #0284c7;
-                            padding-bottom: 16px;
+                            padding-bottom: 14px;
                             margin-bottom: 20px;
                             display: flex;
                             justify-content: space-between;
-                            align-items: flex-start;
+                            align-items: center;
+                            gap: 15px;
                         }
-                        .header-title h2 { margin: 0; font-size: 24px; font-weight: 900; color: #0f172a; }
-                        .header-title p { margin: 4px 0 0 0; font-size: 14px; font-weight: 700; color: #0284c7; }
+                        .logo-box {
+                            width: 80px;
+                            height: 80px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            flex-shrink: 0;
+                        }
+                        .header-titles {
+                            text-align: center;
+                            flex: 1;
+                        }
+                        .header-titles h2 { margin: 0; font-size: 23px; font-weight: 900; color: #0f172a; }
+                        .header-titles h3 { margin: 3px 0 0 0; font-size: 16px; font-weight: 800; color: #0284c7; }
+                        .header-titles p { margin: 3px 0 0 0; font-size: 13px; font-weight: 700; color: #64748b; }
                         
                         .student-banner {
                             background: #f0fdf4;
@@ -1470,37 +1392,76 @@
                             line-height: 1.6;
                             margin-top: 24px;
                         }
+
+                        @media print {
+                            body { padding: 10px 20px; }
+                            .print-actions-bar { display: none !important; }
+                        }
                     </style>
                 </head>
                 <body>
+                    <!-- شريط إجراءات الطباعة العلوي -->
+                    <div class="print-actions-bar">
+                        <span style="font-weight: 800; font-size: 13.5px; color: #334155;">جاهز للطباعة أو الحفظ كملف PDF:</span>
+                        <button class="btn-print-action" onclick="window.print()">🖨️ طباعة التقرير الآن</button>
+                    </div>
+
                     <div class="header-wrap">
-                        <div class="header-title">
-                            <h2>جامعة عمان العربية — كلية الشريعة</h2>
-                            <p>كشف رسمي بالمواد المجتازة — تخصص الفقه وأصوله (132 ساعة معتمدة)</p>
+                        <!-- شعار كلية الشريعة -->
+                        <div class="logo-box" title="كلية الشريعة">
+                            <svg viewBox="0 0 100 100" width="80" height="80">
+                                <circle cx="50" cy="50" r="46" fill="#f0fdf4" stroke="#15803d" stroke-width="3"/>
+                                <circle cx="50" cy="50" r="41" fill="none" stroke="#86efac" stroke-width="1.5" stroke-dasharray="3,2"/>
+                                <path d="M 50 42 Q 35 34 22 38 L 22 68 Q 35 64 50 72 Q 65 64 78 68 L 78 38 Q 65 34 50 42 Z" fill="#ffffff" stroke="#15803d" stroke-width="2"/>
+                                <line x1="50" y1="42" x2="50" y2="72" stroke="#15803d" stroke-width="2"/>
+                                <circle cx="50" cy="28" r="4" fill="#f59e0b"/>
+                                <line x1="50" y1="18" x2="50" y2="22" stroke="#f59e0b" stroke-width="2"/>
+                                <line x1="42" y1="21" x2="45" y2="24" stroke="#f59e0b" stroke-width="1.5"/>
+                                <line x1="58" y1="21" x2="55" y2="24" stroke="#f59e0b" stroke-width="1.5"/>
+                                <text x="50" y="86" font-size="7.5" font-weight="900" fill="#15803d" text-anchor="middle" font-family="'Tajawal', sans-serif">كلية الشريعة</text>
+                            </svg>
                         </div>
-                        <div style="font-size: 12px; font-weight: 700; color: #64748b; text-align: left;">
-                            تاريخ الإصدار:<br>
-                            ${new Date().toLocaleDateString('ar-JO')}
+
+                        <!-- الترويسة الأكاديمية -->
+                        <div class="header-titles">
+                            <h2>جامعة عمان العربية</h2>
+                            <h3>كلية الشريعة — قسم الفقه وأصوله</h3>
+                            <p>كشف رسمي بالمساقات المجتازة (مواد التخصص 102 ساعة معتمدة)</p>
+                        </div>
+
+                        <!-- شعار جامعة عمان العربية -->
+                        <div class="logo-box" title="جامعة عمان العربية">
+                            <svg viewBox="0 0 100 100" width="80" height="80">
+                                <circle cx="50" cy="50" r="46" fill="#e0f2fe" stroke="#0284c7" stroke-width="3"/>
+                                <circle cx="50" cy="50" r="41" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3,2"/>
+                                <path d="M 50 20 L 78 35 L 22 35 Z" fill="#0284c7"/>
+                                <rect x="30" y="38" width="6" height="26" fill="#0369a1" rx="2"/>
+                                <rect x="42" y="38" width="6" height="26" fill="#0369a1" rx="2"/>
+                                <rect x="52" y="38" width="6" height="26" fill="#0369a1" rx="2"/>
+                                <rect x="64" y="38" width="6" height="26" fill="#0369a1" rx="2"/>
+                                <rect x="24" y="66" width="52" height="6" fill="#0284c7" rx="1.5"/>
+                                <text x="50" y="86" font-size="7" font-weight="900" fill="#0284c7" text-anchor="middle" font-family="'Tajawal', sans-serif">AMMAN ARAB UNIVERSITY</text>
+                            </svg>
                         </div>
                     </div>
 
                     <div class="student-banner">
                         <div><strong>اسم الطالب الرباعي:</strong> ${studentName}</div>
-                        <div>الدرجة: بكالوريوس في الفقه وأصوله</div>
+                        <div><strong>تاريخ الإصدار:</strong> ${new Date().toLocaleDateString('ar-JO')}</div>
                     </div>
 
                     <div class="summary-grid">
                         <div class="summary-box">
-                            <div class="num">${majorHours} / 102</div>
+                            <div class="num">${majorHours} ساعة</div>
                             <div class="lbl">ساعات التخصص المنجزة</div>
                         </div>
                         <div class="summary-box">
-                            <div class="num">${uniHours} / 30</div>
-                            <div class="lbl">متطلبات الجامعة المحسوبة</div>
+                            <div class="num" style="color: #dc2626;">${remainingInMajor} ساعة</div>
+                            <div class="lbl">الساعات المتبقية من التخصص</div>
                         </div>
                         <div class="summary-box">
-                            <div class="num" style="color: #15803d;">${totalHours} / 132 (${Math.round((totalHours/132)*100)}%)</div>
-                            <div class="lbl">المجموع الكلي التراكمي</div>
+                            <div class="num" style="color: #15803d;">${percentageInMajor}%</div>
+                            <div class="lbl">نسبة إنجاز مواد التخصص (102 س)</div>
                         </div>
                     </div>
 
@@ -1532,14 +1493,13 @@
                     `}
 
                     <div class="exclusion-notice">
-                        📌 <strong>تنبيه ومعلومة أكاديمية:</strong> قائمة المواد المذكورة أعلاه خاصة بمساقات التخصص التي اجتازها الطالب في الخطة الشجرية، وقد تم استثناء متطلبات الجامعة الإجبارية والاختيارية والمواد الحرة من هذا الكشف التفصيلي، ويتم احتساب ساعاتها في المجموع التراكمي أعلاه بشكل منفصل.
+                        📌 <strong>تنبيه ومعلومة أكاديمية:</strong> قائمة المواد المذكورة أعلاه خاصة بمساقات التخصص (102 ساعة) التي اجتازها الطالب في الخطة الشجرية، وقد تم استثناء متطلبات الجامعة (الإجبارية والاختيارية) والمواد الحرة بمجموع (30 ساعة) من هذا الكشف ومن شريط الإنجاز.
                     </div>
                 </body>
                 </html>
             `);
             printWindow.document.close();
             printWindow.focus();
-            setTimeout(() => { printWindow.print(); }, 500);
         }
 
         function openShareModal() {
@@ -1548,7 +1508,7 @@
 
         function shareDirectWhatsApp() {
             const currentUrl = window.location.href;
-            const text = `🌿 الخطة الشجرية التفاعلية لتخصص الفقه وأصوله (جامعة عمان العربية):\nأنجزت حتى الآن (${totalHours}) ساعة من أصل 132 ساعة معتمدة.\nيمكنك متابعة خطتك وحساب ساعاتك بسهولة عبر الرابط:\n${currentUrl}`;
+            const text = `🌿 الخطة الشجرية التفاعلية لتخصص الفقه وأصوله (جامعة عمان العربية):\nأنجزت حتى الآن (${majorHours}) ساعة من أصل 102 ساعة تخصص.\nيمكنك متابعة خطتك وحساب ساعاتك بسهولة عبر الرابط:\n${currentUrl}`;
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
         }
 
@@ -1556,20 +1516,6 @@
             navigator.clipboard.writeText(window.location.href).then(() => {
                 alert('✅ تم نسخ رابط الخطة بنجاح!');
                 closeModal('shareModal');
-            });
-        }
-
-        function downloadImage() {
-            const element = document.getElementById('plan-container');
-            html2canvas(element, {
-                scale: 2,
-                backgroundColor: document.body.classList.contains('dark-mode') ? '#1e293b' : '#ffffff',
-                useCORS: true
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `خطة_الفقه_وأصوله_${totalHours}_ساعة.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
             });
         }
 
