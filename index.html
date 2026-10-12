@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الخطة الشجرية لتخصص الفقه وأصوله - جامعة عمان العربية</title>
     
-    <!-- إعدادات تطبيق الهاتف PWA -->
     <meta name="theme-color" content="#0284c7">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -465,25 +464,6 @@
             box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2); 
         }
 
-        .grades-notice-banner {
-            background: #eff6ff;
-            border: 1px dashed #3b82f6;
-            color: #1d4ed8;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 8px 10px;
-            border-radius: 8px;
-            line-height: 1.5;
-            margin-top: 6px;
-            margin-bottom: 8px;
-        }
-
-        body.dark-mode .grades-notice-banner {
-            background: #172554;
-            color: #93c5fd;
-            border-color: #60a5fa;
-        }
-
         .grades-container { 
             max-height: 240px; 
             overflow-y: auto; 
@@ -503,16 +483,17 @@
         }
         .grade-row-item:last-child { border-bottom: none; }
         .grade-item-name { font-size: 12.5px; font-weight: 800; flex: 1; }
-        .grade-item-input { 
-            width: 85px; 
+        .grade-item-select { 
+            width: 105px; 
             text-align: center; 
-            padding: 6px; 
+            padding: 5px; 
             border-radius: 6px; 
             border: 1.5px solid #cbd5e1; 
             font-size: 13px; 
             font-weight: 800; 
             background: var(--wrapper-bg); 
             color: var(--text-main); 
+            outline: none;
         }
 
         @media print { 
@@ -832,7 +813,7 @@
         </div>
     </div>
 
-    <!-- نافذة إعداد واستخراج التقرير الأكاديمية الشاملة -->
+    <!-- نافذة إعداد واستخراج التقرير -->
     <div class="modal-overlay" id="reportConfigModal">
         <div class="modal-box">
             <div class="modal-title">📄 إعداد كشف المساقات المجتازة</div>
@@ -888,10 +869,7 @@
 
             <!-- قسم إدخال العلامات -->
             <div id="gradesInputSection" style="display: none; margin-top: 10px;">
-                <label class="form-label" style="color: #0284c7;">✍️ أدخل علامات المساقات المنجزة:</label>
-                <div class="grades-notice-banner">
-                    💡 <strong>ملاحظة:</strong> يمكنك كتابة الدرجة المئوية أو الرمز (مثل: 85 أو أ)، وللمساقات التي قيد الدراسة أو لم تصدر نتيجتها بعد، يمكنك كتابة كلمة <strong>"مسجل"</strong>.
-                </div>
+                <label class="form-label" style="color: #0284c7;">✍️ حدد علامة كل مساق منجز من القائمة:</label>
                 <div class="grades-container" id="gradesRowsWrapper"></div>
             </div>
             
@@ -958,6 +936,15 @@
             'box-firaq': 'box-madkhal-aqeedah',
             'box-qiraat-aqeedah': 'box-madkhal-aqeedah'
         };
+
+        const GRADE_OPTIONS = [
+            "مسجل",
+            "أ", "أ-",
+            "ب+", "ب", "ب-",
+            "ج+", "ج", "ج-",
+            "د+", "د", "د-",
+            "هـ"
+        ];
 
         function highlightCoursePath(courseId) {
             if (activeHighlightCourseId === courseId) {
@@ -1260,16 +1247,22 @@
                 const title = b.querySelector('.box-title-text').textContent.trim();
                 const row = document.createElement('div');
                 row.className = 'grade-row-item';
+                
+                let selectOptions = '';
+                GRADE_OPTIONS.forEach(opt => {
+                    selectOptions += `<option value="${opt}">${opt}</option>`;
+                });
+
                 row.innerHTML = `
                     <span class="grade-item-name">${title}</span>
-                    <input type="text" class="grade-item-input" data-course="${title}" placeholder="العلامة">
+                    <select class="grade-item-select" data-course="${title}">
+                        ${selectOptions}
+                    </select>
                 `;
                 wrapper.appendChild(row);
             });
 
-            // وضع ساعات الشجرة تلقائياً
             document.getElementById('repMajorHoursAuto').value = majorHours + " ساعة معتمدة";
-
             document.getElementById('reportConfigModal').style.display = 'flex';
             document.getElementById('repStudentName').focus();
         }
@@ -1300,19 +1293,33 @@
                 const title = b.querySelector('.box-title-text').textContent.trim();
                 const hours = b.getAttribute('data-hours') || '3';
                 let gradeVal = '-';
+                let statusVal = 'ناجح';
+                let statusColor = '#15803d';
+
                 if (reportType === 'with') {
-                    const inputEl = document.querySelector(`.grade-item-input[data-course="${title}"]`);
-                    if (inputEl && inputEl.value.trim()) {
-                        gradeVal = inputEl.value.trim();
+                    const selEl = document.querySelector(`.grade-item-select[data-course="${title}"]`);
+                    if (selEl) {
+                        gradeVal = selEl.value;
+                        if (gradeVal === 'مسجل') {
+                            statusVal = 'غير مكتمل';
+                            statusColor = '#d97706';
+                        } else if (gradeVal === 'د-' || gradeVal === 'هـ') {
+                            statusVal = 'راسب';
+                            statusColor = '#dc2626';
+                        } else {
+                            statusVal = 'ناجح';
+                            statusColor = '#15803d';
+                        }
                     }
+                } else {
+                    statusVal = 'ناجح';
+                    statusColor = '#15803d';
                 }
-                passedCourses.push({ title, hours, grade: gradeVal });
+
+                passedCourses.push({ title, hours, grade: gradeVal, status: statusVal, color: statusColor });
             });
 
             closeModal('reportConfigModal');
-
-            const aauLogoUrl = "https://upload.wikimedia.org/wikipedia/commons/3/36/20231126101553%21%D8%B4%D8%B9%D8%A7%D8%B1_%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%B9%D9%85%D8%A7%D9%86_%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9.png";
-            const shariaLogoUrl = "https://www.aau.edu.jo/sites/default/files/2023-11/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D9%83%D9%84%D9%8A%D8%A7%D8%AA-2023.png";
 
             const now = new Date();
             const day = String(now.getDate()).padStart(2, '0');
@@ -1401,11 +1408,6 @@
                             justify-content: center;
                             flex-shrink: 0;
                         }
-                        .logo-img {
-                            max-width: 100%;
-                            max-height: 100%;
-                            object-fit: contain;
-                        }
                         .header-titles {
                             text-align: center;
                             flex: 1;
@@ -1433,7 +1435,7 @@
                             background: #f1f5f9;
                             color: #334155;
                             font-weight: 800;
-                            width: 22%;
+                            width: 24%;
                         }
                         .info-summary-table .val {
                             color: #0f172a;
@@ -1459,22 +1461,10 @@
                             font-weight: 700;
                         }
                         table.courses-table tr:nth-child(even) td { background: #f8fafc; }
-                        
-                        .exclusion-notice {
-                            background: #fefce8;
-                            border: 1.5px solid #fde047;
-                            color: #854d0e;
-                            border-radius: 8px;
-                            padding: 10px 14px;
-                            font-size: 12.5px;
-                            font-weight: 800;
-                            line-height: 1.6;
-                            margin-top: 20px;
-                        }
 
-                        @media print {
-                            body { padding: 0 !important; }
-                            .print-actions-bar { display: none !important; }
+                        @media print { 
+                            body { padding: 0 !important; } 
+                            .print-actions-bar { display: none !important; } 
                         }
                     </style>
                 </head>
@@ -1486,7 +1476,15 @@
 
                     <div class="header-wrap">
                         <div class="logo-box-sharia" title="كلية الشريعة">
-                            <img class="logo-img" src="${shariaLogoUrl}" alt="شعار كلية الشريعة">
+                            <svg viewBox="0 0 100 110" width="85" height="85">
+                                <circle cx="50" cy="45" r="42" fill="none" stroke="#154734" stroke-width="6"/>
+                                <circle cx="50" cy="45" r="36" fill="#ffffff"/>
+                                <path d="M 32 30 Q 50 15 68 30 L 68 50 L 32 50 Z" fill="none" stroke="#154734" stroke-width="2"/>
+                                <path d="M 28 48 L 50 60 L 72 48 L 65 42 L 50 52 L 35 42 Z" fill="#b4975a"/>
+                                <path d="M 30 62 L 50 74 L 70 62 L 66 56 L 50 66 L 34 56 Z" fill="#154734"/>
+                                <text x="50" y="98" font-size="13" font-weight="900" fill="#2d3748" text-anchor="middle">كلية الشريعة</text>
+                                <text x="50" y="108" font-size="7" font-weight="700" fill="#718096" text-anchor="middle">College of Shariah</text>
+                            </svg>
                         </div>
 
                         <div class="header-titles">
@@ -1496,7 +1494,14 @@
                         </div>
 
                         <div class="logo-box" title="جامعة عمان العربية">
-                            <img class="logo-img" src="${aauLogoUrl}" alt="شعار جامعة عمان العربية">
+                            <svg viewBox="0 0 200 85" width="140" height="85">
+                                <polygon points="160,10 185,24 135,24" fill="#003366"/>
+                                <polygon points="185,24 185,55 175,55 175,30 160,22 145,30 145,55 135,55 135,24" fill="#0077c8"/>
+                                <rect x="152" y="36" width="16" height="24" fill="#f58220"/>
+                                <polygon points="160,28 168,34 152,34" fill="#f58220"/>
+                                <text x="10" y="44" font-size="21" font-weight="900" fill="#f58220">جامعة عمان العربية</text>
+                                <text x="10" y="62" font-size="10.5" font-weight="900" fill="#003366" letter-spacing="1">AMMAN ARAB UNIVERSITY</text>
+                            </svg>
                         </div>
                     </div>
 
@@ -1514,19 +1519,13 @@
                             <td class="val" style="color: #0284c7; font-weight: 900;">${gpa ? gpa : '—'}</td>
                         </tr>
                         <tr>
-                            <td class="lbl">ساعات التخصص المنجزة:</td>
-                            <td class="val">${majorHours} ساعة</td>
-                            <td class="lbl">متطلبات الجامعة المحسوبة:</td>
-                            <td class="val">${uniHoursVal} / 30 ساعة</td>
-                        </tr>
-                        <tr>
-                            <td class="lbl">المجموع الكلي التراكمي:</td>
-                            <td class="val" colspan="3" style="color: #15803d; font-weight: 900; font-size: 14.5px;">${totalCumulative} / 132 ساعة معتمدة (${Math.round((totalCumulative/132)*100)}%)</td>
+                            <td class="lbl">مجموع الساعات المنجزة:</td>
+                            <td class="val" colspan="3" style="color: #15803d; font-weight: 900; font-size: 14.5px;">${totalCumulative} ساعة</td>
                         </tr>
                     </table>
 
                     <h3 style="font-size: 14.5px; font-weight: 900; margin-bottom: 8px; color: #1e293b;">
-                        المساقات المنجزة بنجاح (${passedCourses.length} مساق):
+                        المساقات المنجزة (${passedCourses.length} مساق):
                     </h3>
 
                     ${passedCourses.length === 0 ? '<p style="font-weight:700; color:#ef4444;">لم يتم تحديد أي مساق منجز حتى الآن.</p>' : `
@@ -1536,8 +1535,8 @@
                                 <th style="width: 45px;">#</th>
                                 <th>اسم المساق</th>
                                 <th style="width: 110px; text-align: center;">الساعات المعتمدة</th>
-                                ${reportType === 'with' ? '<th style="width: 100px; text-align: center;">العلامة / الحالة</th>' : ''}
-                                <th style="width: 85px; text-align: center;">الحالة</th>
+                                ${reportType === 'with' ? '<th style="width: 90px; text-align: center;">العلامة</th>' : ''}
+                                <th style="width: 95px; text-align: center;">الحالة</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1547,16 +1546,12 @@
                                     <td>${c.title}</td>
                                     <td style="text-align: center;">${c.hours} ساعات</td>
                                     ${reportType === 'with' ? `<td style="text-align: center; font-weight: 900; color: #0284c7;">${c.grade}</td>` : ''}
-                                    <td style="text-align: center; color: #15803d;">مكتمل</td>
+                                    <td style="text-align: center; font-weight: 800; color: ${c.color};">${c.status}</td>
                                 </tr>
                             `).join('')}
                         </tbody>
                     </table>
                     `}
-
-                    <div class="exclusion-notice">
-                        📌 <strong>تنبيه ومعلومة أكاديمية:</strong> قائمة المواد المذكورة أعلاه خاصة بمساقات التخصص التي اجتازها الطالب في الخطة الشجرية، وتم استثناء متطلبات الجامعة (الإجبارية والاختيارية) والمواد الحرة من هذا الكشف المفصل وتُحتسب ساعاتها ضمن المجموع التراكمي أعلاه.
-                    </div>
                 </body>
                 </html>
             `);
