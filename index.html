@@ -125,12 +125,12 @@
             gap: 8px;
             flex-wrap: wrap;
             align-items: center;
-            flex: 1;
+            width: 100%;
         }
 
         .btn {
             border: none;
-            padding: 8px 15px;
+            padding: 8px 16px;
             font-size: 13px;
             font-weight: 700;
             border-radius: 20px;
@@ -155,21 +155,22 @@
             box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.35) !important;
         }
 
-        .reset-btn-wrapper {
-            margin-right: auto;
-        }
-
         .btn-reset-red {
             background: #ef4444 !important;
             color: #ffffff !important;
             border: 1.5px solid #dc2626 !important;
             font-weight: 800 !important;
-            box-shadow: 0 3px 8px rgba(239, 68, 68, 0.3) !important;
+            height: 42px;
+            padding: 0 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(239, 68, 68, 0.2) !important;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .btn-reset-red:hover {
             background: #dc2626 !important;
-            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.45) !important;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35) !important;
         }
 
         .stats-summary-card {
@@ -178,39 +179,27 @@
             border-radius: 12px;
             padding: 10px 14px;
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
+            width: 100%;
             box-shadow: 0 2px 6px rgba(0,0,0,0.03);
         }
 
         .stat-item {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 13.5px;
+            gap: 8px;
+            font-size: 15px;
             font-weight: 800;
-        }
-
-        .stat-badge {
-            background: #e0f2fe;
-            color: #0284c7;
-            padding: 3px 10px;
-            border-radius: 8px;
-            font-size: 17px;
-            font-weight: 900;
-        }
-
-        body.dark-mode .stat-badge {
-            background: #0369a1;
-            color: #ffffff;
         }
 
         .stat-badge-total {
             background: #dcfce7;
             color: #15803d;
-            font-size: 18px;
+            font-size: 19px;
+            padding: 3px 12px;
+            border-radius: 8px;
+            font-weight: 900;
         }
 
         body.dark-mode .stat-badge-total {
@@ -218,65 +207,22 @@
             color: #4ade80;
         }
 
-        .stat-badge-remaining {
-            background: #fee2e2;
-            color: #dc2626;
-            font-size: 18px;
-        }
-
-        body.dark-mode .stat-badge-remaining {
-            background: #7f1d1d;
-            color: #fca5a5;
-        }
-
-        .controls-sub-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .search-box-wrap {
-            position: relative;
-            flex: 1;
-            max-width: 320px;
-            min-width: 220px;
-            display: flex;
-            align-items: center;
-        }
-
-        .search-input {
-            width: 100%;
-            height: 100%;
-            min-height: 42px;
-            padding: 7px 14px 7px 34px;
-            border-radius: 20px;
-            border: 1.5px solid var(--border-color);
-            background: var(--wrapper-bg);
-            color: var(--text-main);
-            font-size: 13px;
-            font-weight: 700;
-            outline: none;
-        }
-
         .progress-card {
             background: var(--wrapper-bg);
             border: 1.5px solid var(--border-color);
             border-radius: 12px;
-            padding: 10px 14px;
+            padding: 12px 14px;
             display: flex;
             flex-direction: column;
             gap: 6px;
-            flex: 2;
-            min-width: 260px;
+            width: 100%;
         }
 
         .progress-labels {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 800;
         }
 
@@ -314,6 +260,37 @@
             background: #422006;
             border-color: #854d0e;
             color: #fef08a;
+        }
+
+        /* صف شريط البحث وزر مسح التحديد بعرض الصفحة */
+        .search-action-fullrow {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .search-box-wrap {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 42px;
+            padding: 7px 16px 7px 34px;
+            border-radius: 12px;
+            border: 1.5px solid var(--border-color);
+            background: var(--wrapper-bg);
+            color: var(--text-main);
+            font-size: 13.5px;
+            font-weight: 700;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: #0284c7;
         }
 
         .wrapper { 
@@ -539,14 +516,11 @@
             .wrapper { padding: 10px; }
             .toolbar-top-row { justify-content: center; }
             .buttons-group { justify-content: center; }
-            .reset-btn-wrapper { margin-right: 0; width: 100%; text-align: center; }
+            .search-action-fullrow { flex-direction: column; align-items: stretch; }
             .btn-reset-red { width: 100%; justify-content: center; }
-            .controls-sub-row { flex-direction: column; align-items: stretch; }
-            .search-box-wrap { max-width: 100%; }
             .three-arrows-container { display: none; }
             .grid-main-fiqh, .grid-5, .grid-free { grid-template-columns: 1fr; gap: 8px; }
             .grid-osool-subs { grid-template-columns: 1fr; gap: 6px; }
-            .stats-summary-card { flex-direction: column; align-items: stretch; }
         }
     </style>
 </head>
@@ -581,22 +555,16 @@
     <!-- شريط الأدوات والتحكم الشامل -->
     <div class="toolbar">
         <div class="toolbar-top-row">
-            <!-- كرت الإحصائيات معتمد كلياً على 102 ساعة تخصص -->
-            <div class="stats-summary-card" style="width: 100%;">
+            <!-- كرت مجموع الساعات المنجزة فقط -->
+            <div class="stats-summary-card">
                 <div class="stat-item">
-                    <span>ساعات التخصص المنجزة:</span>
-                    <span class="stat-badge stat-badge-total" id="passed-major-hours">0</span>
-                    <span style="font-size: 13px; font-weight: 800; color: #15803d;">/ 102 ساعة</span>
-                </div>
-
-                <div class="stat-item">
-                    <span>الساعات المتبقية من التخصص:</span>
-                    <span class="stat-badge stat-badge-remaining" id="remaining-hours-badge">102</span>
-                    <span style="font-size: 13px; font-weight: 800; color: #dc2626;">ساعة</span>
+                    <span>مجموع الساعات المنجزة:</span>
+                    <span class="stat-badge-total" id="passed-major-hours">0 ساعة</span>
                 </div>
             </div>
         </div>
 
+        <!-- أزرار الإجراءات الأساسية -->
         <div class="toolbar-top-row" style="margin-top: 4px;">
             <div class="buttons-group">
                 <button class="btn" onclick="installAppDirectly()">📲 تثبيت كتطبيق</button>
@@ -606,37 +574,35 @@
                 <button class="btn" onclick="window.print()">🖨️ طباعة الخطة</button>
                 <button class="btn" id="btn-dark-mode" onclick="toggleDarkMode()">🌙 النمط الليلي</button>
             </div>
-            
-            <div class="reset-btn-wrapper">
-                <button class="btn btn-reset-red" onclick="resetAllCourses()">🔄 مسح كل التحديد</button>
+        </div>
+
+        <!-- شريط الإنجاز -->
+        <div class="progress-card">
+            <div class="progress-labels">
+                <span>نسبة إنجاز مساقات التخصص:</span>
+                <span id="progress-percentage-text" style="color: #0284c7; font-weight: 900;">0%</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progress-bar"></div>
+            </div>
+            <div class="progress-exclusion-note">
+                📌 <strong>ملاحظة:</strong> تم استثناء متطلبات الجامعة (الإجبارية والاختيارية) والمواد الحرة من شريط الإنجاز هذا، وهو مخصص لاحتساب مواد التخصص فقط.
             </div>
         </div>
 
-        <div class="controls-sub-row">
-            <div class="progress-card">
-                <div class="progress-labels">
-                    <span>نسبة إنجاز مساقات التخصص (من أصل 102 ساعة):</span>
-                    <span id="progress-percentage-text" style="color: #0284c7; font-weight: 900;">0%</span>
-                </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" id="progress-bar"></div>
-                </div>
-                <!-- الملاحظة التوضيحية الخاصة باستثناء متطلبات الجامعة -->
-                <div class="progress-exclusion-note">
-                    📌 <strong>ملاحظة:</strong> تم استثناء متطلبات الجامعة (الإجبارية والاختيارية) والمواد الحرة بمجموع (30) ساعة من شريط الإنجاز هذا، وهو مخصص لاحتساب مواد التخصص (102 ساعة) فقط.
-                </div>
-            </div>
-
+        <!-- خانة البحث بعرض الصفحة وبجانبها زر مسح كل التحديد -->
+        <div class="search-action-fullrow">
             <div class="search-box-wrap">
                 <input type="text" class="search-input" id="courseSearchInput" placeholder="🔍 ابحث عن اسم أي مادة..." oninput="searchCourses()">
             </div>
+            <button class="btn btn-reset-red" onclick="resetAllCourses()">🔄 مسح كل التحديد</button>
         </div>
     </div>
 
     <div class="wrapper" id="plan-container">
         <div class="header">
             <h1>الخطة الشجرية لتخصص الفقه وأصوله</h1>
-            <p>جامعة عمان العربية — كلية الشريعة (102 ساعة تخصص معتمدة في الخطة الشجرية)</p>
+            <p>جامعة عمان العربية — كلية الشريعة</p>
         </div>
 
         <!-- 1. مسار الفقه العام وأصول الفقه -->
@@ -908,9 +874,9 @@
     <div class="modal-overlay" id="gradModal">
         <div class="modal-box" style="text-align: center; border-color: #10b981;">
             <div style="font-size: 55px;">🎓</div>
-            <div style="font-size: 24px; font-weight: 900; color: #065f46; margin: 8px 0;">مبارك إتمام مواد التخصص!</div>
+            <div style="font-size: 24px; font-weight: 900; color: #065f46; margin: 8px 0;">مبارك إتمام جميع مواد التخصص!</div>
             <div style="font-size: 15px; line-height: 1.6; font-weight: 700; margin-bottom: 18px;">
-                أتممت بحمد الله جميع ساعات تخصص الفقه وأصوله (102 ساعة معتمدة) بنجاح.<br>
+                أتممت بحمد الله جميع ساعات تخصص الفقه وأصوله بنجاح.<br>
                 بارك الله بك ونفع بك الأمة والدين 🌿
             </div>
             <button class="btn" style="background: #10b981; color: #ffffff; padding: 8px 22px; border-radius: 20px; margin: 12px auto 0 auto; display: block;" onclick="closeModal('gradModal')">تقبّل الله ونفع بكم 🌿</button>
@@ -1071,12 +1037,9 @@
                 majorHours += parseInt(b.getAttribute('data-hours') || '3');
             });
 
-            majorHours = Math.min(102, majorHours);
-            document.getElementById('passed-major-hours').textContent = majorHours;
+            document.getElementById('passed-major-hours').textContent = majorHours + " ساعة";
 
-            const remaining = Math.max(0, 102 - majorHours);
-            document.getElementById('remaining-hours-badge').textContent = remaining;
-
+            // حساب نسبة مئوية بحد أقصى 102 ساعة
             const percentage = Math.min(100, Math.round((majorHours / 102) * 100));
             document.getElementById('progress-percentage-text').textContent = percentage + '%';
             document.getElementById('progress-bar').style.width = percentage + '%';
@@ -1260,8 +1223,12 @@
                 });
             });
 
-            const remainingInMajor = Math.max(0, 102 - majorHours);
-            const percentageInMajor = Math.min(100, Math.round((majorHours / 102) * 100));
+            // روابط الشعارات الرسمية من البوابة الجامعية المباشرة
+            const aauLogoUrl = "https://www.aau.edu.jo/sites/default/files/logo_0.png";
+            const shariaLogoUrl = "https://www.aau.edu.jo/sites/default/files/2021-10/sharia.png";
+
+            // تاريخ الإصدار باللغة الإنجليزية
+            const englishDate = new Date().toLocaleDateString('en-GB');
 
             const printWindow = window.open('', '_blank');
             printWindow.document.write(`
@@ -1316,12 +1283,17 @@
                             gap: 15px;
                         }
                         .logo-box {
-                            width: 80px;
-                            height: 80px;
+                            width: 100px;
+                            height: 100px;
                             display: flex;
                             align-items: center;
                             justify-content: center;
                             flex-shrink: 0;
+                        }
+                        .logo-img {
+                            max-width: 100px;
+                            max-height: 100px;
+                            object-fit: contain;
                         }
                         .header-titles {
                             text-align: center;
@@ -1346,20 +1318,20 @@
                         }
 
                         .summary-grid {
-                            display: grid;
-                            grid-template-columns: repeat(3, 1fr);
-                            gap: 12px;
+                            display: flex;
+                            justify-content: center;
                             margin-bottom: 20px;
                         }
                         .summary-box {
                             background: #f8fafc;
-                            border: 1.5px solid #e2e8f0;
+                            border: 1.5px solid #0284c7;
                             border-radius: 10px;
-                            padding: 12px;
+                            padding: 12px 35px;
                             text-align: center;
+                            min-width: 250px;
                         }
-                        .summary-box .num { font-size: 22px; font-weight: 900; color: #0284c7; }
-                        .summary-box .lbl { font-size: 12px; font-weight: 700; color: #64748b; margin-top: 3px; }
+                        .summary-box .num { font-size: 24px; font-weight: 900; color: #0284c7; }
+                        .summary-box .lbl { font-size: 13px; font-weight: 800; color: #64748b; margin-top: 4px; }
                         table {
                             width: 100%;
                             border-collapse: collapse;
@@ -1400,68 +1372,39 @@
                     </style>
                 </head>
                 <body>
-                    <!-- شريط إجراءات الطباعة العلوي -->
                     <div class="print-actions-bar">
                         <span style="font-weight: 800; font-size: 13.5px; color: #334155;">جاهز للطباعة أو الحفظ كملف PDF:</span>
                         <button class="btn-print-action" onclick="window.print()">🖨️ طباعة التقرير الآن</button>
                     </div>
 
                     <div class="header-wrap">
-                        <!-- شعار كلية الشريعة -->
+                        <!-- شعار كلية الشريعة الرسمي -->
                         <div class="logo-box" title="كلية الشريعة">
-                            <svg viewBox="0 0 100 100" width="80" height="80">
-                                <circle cx="50" cy="50" r="46" fill="#f0fdf4" stroke="#15803d" stroke-width="3"/>
-                                <circle cx="50" cy="50" r="41" fill="none" stroke="#86efac" stroke-width="1.5" stroke-dasharray="3,2"/>
-                                <path d="M 50 42 Q 35 34 22 38 L 22 68 Q 35 64 50 72 Q 65 64 78 68 L 78 38 Q 65 34 50 42 Z" fill="#ffffff" stroke="#15803d" stroke-width="2"/>
-                                <line x1="50" y1="42" x2="50" y2="72" stroke="#15803d" stroke-width="2"/>
-                                <circle cx="50" cy="28" r="4" fill="#f59e0b"/>
-                                <line x1="50" y1="18" x2="50" y2="22" stroke="#f59e0b" stroke-width="2"/>
-                                <line x1="42" y1="21" x2="45" y2="24" stroke="#f59e0b" stroke-width="1.5"/>
-                                <line x1="58" y1="21" x2="55" y2="24" stroke="#f59e0b" stroke-width="1.5"/>
-                                <text x="50" y="86" font-size="7.5" font-weight="900" fill="#15803d" text-anchor="middle" font-family="'Tajawal', sans-serif">كلية الشريعة</text>
-                            </svg>
+                            <img class="logo-img" src="${shariaLogoUrl}" alt="شعار كلية الشريعة" onerror="this.onerror=null; this.outerHTML='<svg viewBox=\\'0 0 100 100\\' width=\\'90\\' height=\\'90\\'><circle cx=\\'50\\' cy=\\'50\\' r=\\'46\\' fill=\\'#f0fdf4\\' stroke=\\'#15803d\\' stroke-width=\\'3\\'/><circle cx=\\'50\\' cy=\\'50\\' r=\\'40\\' fill=\\'none\\' stroke=\\'#86efac\\' stroke-width=\\'1.5\\'/><path d=\\'M 50 38 Q 35 30 22 34 L 22 66 Q 35 62 50 70 Q 65 62 78 66 L 78 34 Q 65 30 50 38 Z\\' fill=\\'#ffffff\\' stroke=\\'#15803d\\' stroke-width=\\'2\\'/><line x1=\\'50\\' y1=\\'38\\' x2=\\'50\\' y2=\\'70\\' stroke=\\'#15803d\\' stroke-width=\\'2\\'/><circle cx=\\'50\\' cy=\\'25\\' r=\\'4\\' fill=\\'#f59e0b\\'/><text x=\\'50\\' y=\\'86\\' font-size=\\'7.5\\' font-weight=\\'900\\' fill=\\'#15803d\\' text-anchor=\\'middle\\'>كلية الشريعة</text></svg>';">
                         </div>
 
-                        <!-- الترويسة الأكاديمية -->
                         <div class="header-titles">
                             <h2>جامعة عمان العربية</h2>
                             <h3>كلية الشريعة — قسم الفقه وأصوله</h3>
-                            <p>كشف رسمي بالمساقات المجتازة (مواد التخصص 102 ساعة معتمدة)</p>
+                            <p>كشف رسمي بالمساقات المجتازة (الخطة الشجرية)</p>
                         </div>
 
-                        <!-- شعار جامعة عمان العربية -->
+                        <!-- شعار جامعة عمان العربية الرسمي -->
                         <div class="logo-box" title="جامعة عمان العربية">
-                            <svg viewBox="0 0 100 100" width="80" height="80">
-                                <circle cx="50" cy="50" r="46" fill="#e0f2fe" stroke="#0284c7" stroke-width="3"/>
-                                <circle cx="50" cy="50" r="41" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3,2"/>
-                                <path d="M 50 20 L 78 35 L 22 35 Z" fill="#0284c7"/>
-                                <rect x="30" y="38" width="6" height="26" fill="#0369a1" rx="2"/>
-                                <rect x="42" y="38" width="6" height="26" fill="#0369a1" rx="2"/>
-                                <rect x="52" y="38" width="6" height="26" fill="#0369a1" rx="2"/>
-                                <rect x="64" y="38" width="6" height="26" fill="#0369a1" rx="2"/>
-                                <rect x="24" y="66" width="52" height="6" fill="#0284c7" rx="1.5"/>
-                                <text x="50" y="86" font-size="7" font-weight="900" fill="#0284c7" text-anchor="middle" font-family="'Tajawal', sans-serif">AMMAN ARAB UNIVERSITY</text>
-                            </svg>
+                            <img class="logo-img" src="${aauLogoUrl}" alt="شعار جامعة عمان العربية" onerror="this.onerror=null; this.outerHTML='<svg viewBox=\\'0 0 100 100\\' width=\\'90\\' height=\\'90\\'><circle cx=\\'50\\' cy=\\'50\\' r=\\'46\\' fill=\\'#e0f2fe\\' stroke=\\'#0284c7\\' stroke-width=\\'3\\'/><circle cx=\\'50\\' cy=\\'50\\' r=\\'40\\' fill=\\'none\\' stroke=\\'#38bdf8\\' stroke-width=\\'1.5\\'/><path d=\\'M 50 22 L 76 36 L 24 36 Z\\' fill=\\'#0284c7\\'/><rect x=\\'32\\' y=\\'38\\' width=\\'6\\' height=\\'24\\' fill=\\'#0369a1\\'/><rect x=\\'43\\' y=\\'38\\' width=\\'6\\' height=\\'24\\' fill=\\'#0369a1\\'/><rect x=\\'53\\' y=\\'38\\' width=\\'6\\' height=\\'24\\' fill=\\'#0369a1\\'/><rect x=\\'64\\' y=\\'38\\' width=\\'6\\' height=\\'24\\' fill=\\'#0369a1\\'/><rect x=\\'25\\' y=\\'64\\' width=\\'50\\' height=\\'6\\' fill=\\'#0284c7\\'/><text x=\\'50\\' y=\\'86\\' font-size=\\'7\\' font-weight=\\'900\\' fill=\\'#0284c7\\' text-anchor=\\'middle\\'>AMMAN ARAB UNIVERSITY</text></svg>';">
                         </div>
                     </div>
 
                     <div class="student-banner">
                         <div><strong>اسم الطالب الرباعي:</strong> ${studentName}</div>
-                        <div><strong>تاريخ الإصدار:</strong> ${new Date().toLocaleDateString('ar-JO')}</div>
+                        <div><strong>Date of Issue:</strong> <span style="direction: ltr; display: inline-block;">${englishDate}</span></div>
                     </div>
 
+                    <!-- مجموع الساعات المنجزة فقط -->
                     <div class="summary-grid">
                         <div class="summary-box">
                             <div class="num">${majorHours} ساعة</div>
-                            <div class="lbl">ساعات التخصص المنجزة</div>
-                        </div>
-                        <div class="summary-box">
-                            <div class="num" style="color: #dc2626;">${remainingInMajor} ساعة</div>
-                            <div class="lbl">الساعات المتبقية من التخصص</div>
-                        </div>
-                        <div class="summary-box">
-                            <div class="num" style="color: #15803d;">${percentageInMajor}%</div>
-                            <div class="lbl">نسبة إنجاز مواد التخصص (102 س)</div>
+                            <div class="lbl">مجموع الساعات المنجزة</div>
                         </div>
                     </div>
 
@@ -1485,15 +1428,16 @@
                                     <td>${i + 1}</td>
                                     <td>${c.title}</td>
                                     <td style="text-align: center;">${c.hours} ساعات</td>
-                                    <td style="text-align: center; color: #15803d;">مكتمل ✔</td>
+                                    <td style="text-align: center; color: #15803d;">مكتمل</td>
                                 </tr>
                             `).join('')}
                         </tbody>
                     </table>
                     `}
 
+                    <!-- التنبيه الأكاديمي بدون ذكر أي أرقام -->
                     <div class="exclusion-notice">
-                        📌 <strong>تنبيه ومعلومة أكاديمية:</strong> قائمة المواد المذكورة أعلاه خاصة بمساقات التخصص (102 ساعة) التي اجتازها الطالب في الخطة الشجرية، وقد تم استثناء متطلبات الجامعة (الإجبارية والاختيارية) والمواد الحرة بمجموع (30 ساعة) من هذا الكشف ومن شريط الإنجاز.
+                        📌 <strong>تنبيه ومعلومة أكاديمية:</strong> قائمة المواد المذكورة أعلاه خاصة بمساقات التخصص التي اجتازها الطالب في الخطة الشجرية، وتم استثناء متطلبات الجامعة (الإجبارية والاختيارية) والمواد الحرة من هذا الكشف ومن شريط الإنجاز.
                     </div>
                 </body>
                 </html>
@@ -1508,7 +1452,7 @@
 
         function shareDirectWhatsApp() {
             const currentUrl = window.location.href;
-            const text = `🌿 الخطة الشجرية التفاعلية لتخصص الفقه وأصوله (جامعة عمان العربية):\nأنجزت حتى الآن (${majorHours}) ساعة من أصل 102 ساعة تخصص.\nيمكنك متابعة خطتك وحساب ساعاتك بسهولة عبر الرابط:\n${currentUrl}`;
+            const text = `🌿 الخطة الشجرية التفاعلية لتخصص الفقه وأصوله (جامعة عمان العربية):\nأنجزت حتى الآن (${majorHours} ساعة) في تخصص الفقه وأصوله.\nيمكنك متابعة خطتك وحساب ساعاتك بسهولة عبر الرابط:\n${currentUrl}`;
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
         }
 
