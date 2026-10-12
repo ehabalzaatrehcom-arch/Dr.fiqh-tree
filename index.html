@@ -1153,6 +1153,11 @@
                 });
             });
 
+            // رابط شعار جامعة عمان العربية الرسمي المعتمد
+            const aauLogoUrl = "https://upload.wikimedia.org/wikipedia/commons/3/36/20231126101553%21%D8%B4%D8%B9%D8%A7%D8%B1_%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%B9%D9%85%D8%A7%D9%86_%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9.png";
+            // رابط شعار كلية الشريعة الرسمي (جامعة عمان العربية 2023)
+            const shariaLogoUrl = "https://www.aau.edu.jo/sites/default/files/2023-11/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D9%83%D9%84%D9%8A%D8%A7%D8%AA-2023.png";
+
             // تاريخ الإصدار: اليوم/الشهر/السنة بأرقام إنجليزية
             const now = new Date();
             const day = String(now.getDate()).padStart(2, '0');
@@ -1167,9 +1172,23 @@
                     <title>تقرير بالمواد المجتازة - ${studentName}</title>
                     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;900&display=swap" rel="stylesheet">
                     <style>
+                        /* منع ظهور اسم الصفحة أو التاريخ التلقائي أو الروابط في أعلى وأسفل الصفحة المطبوعة */
+                        @page {
+                            margin: 15mm 15mm 15mm 15mm;
+                            size: auto;
+                        }
+
+                        * {
+                            box-sizing: border-box;
+                            margin: 0;
+                            padding: 0;
+                            font-family: 'Tajawal', Tahoma, sans-serif !important;
+                            -webkit-print-color-adjust: exact !important;
+                            print-color-adjust: exact !important;
+                        }
+
                         body { 
-                            font-family: 'Tajawal', Tahoma, sans-serif !important; 
-                            padding: 25px 35px; 
+                            padding: 20px 25px; 
                             direction: rtl; 
                             background: #ffffff;
                             color: #0f172a;
@@ -1205,13 +1224,41 @@
 
                         .header-wrap {
                             border-bottom: 2.5px solid #0284c7;
-                            padding-bottom: 16px;
+                            padding-bottom: 15px;
                             margin-bottom: 20px;
-                            text-align: center;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            gap: 15px;
                         }
-                        .header-wrap h2 { margin: 0; font-size: 24px; font-weight: 900; color: #0f172a; }
-                        .header-wrap h3 { margin: 4px 0 0 0; font-size: 17px; font-weight: 800; color: #0284c7; }
-                        .header-wrap p { margin: 4px 0 0 0; font-size: 13.5px; font-weight: 700; color: #64748b; }
+                        .logo-box {
+                            width: 140px;
+                            height: 85px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            flex-shrink: 0;
+                        }
+                        .logo-box-sharia {
+                            width: 85px;
+                            height: 85px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            flex-shrink: 0;
+                        }
+                        .logo-img {
+                            max-width: 100%;
+                            max-height: 100%;
+                            object-fit: contain;
+                        }
+                        .header-titles {
+                            text-align: center;
+                            flex: 1;
+                        }
+                        .header-titles h2 { margin: 0; font-size: 22px; font-weight: 900; color: #0f172a; }
+                        .header-titles h3 { margin: 3px 0 0 0; font-size: 15px; font-weight: 800; color: #0284c7; }
+                        .header-titles p { margin: 3px 0 0 0; font-size: 12.5px; font-weight: 700; color: #64748b; }
                         
                         .student-banner {
                             background: #f0fdf4;
@@ -1222,7 +1269,7 @@
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
-                            font-size: 15px;
+                            font-size: 14.5px;
                             font-weight: 800;
                             color: #166534;
                         }
@@ -1236,28 +1283,28 @@
                             background: #f8fafc;
                             border: 1.5px solid #0284c7;
                             border-radius: 10px;
-                            padding: 12px 35px;
+                            padding: 10px 35px;
                             text-align: center;
                             min-width: 250px;
                         }
-                        .summary-box .num { font-size: 24px; font-weight: 900; color: #0284c7; }
-                        .summary-box .lbl { font-size: 13px; font-weight: 800; color: #64748b; margin-top: 4px; }
+                        .summary-box .num { font-size: 22px; font-weight: 900; color: #0284c7; }
+                        .summary-box .lbl { font-size: 12.5px; font-weight: 800; color: #64748b; margin-top: 3px; }
                         table {
                             width: 100%;
                             border-collapse: collapse;
                             margin-top: 10px;
-                            font-size: 13.5px;
+                            font-size: 13px;
                         }
                         th {
                             background: #f1f5f9;
                             color: #1e293b;
                             font-weight: 800;
-                            padding: 10px 12px;
+                            padding: 9px 12px;
                             border-bottom: 2px solid #cbd5e1;
                             text-align: right;
                         }
                         td {
-                            padding: 9px 12px;
+                            padding: 8px 12px;
                             border-bottom: 1px solid #e2e8f0;
                             font-weight: 700;
                         }
@@ -1269,14 +1316,14 @@
                             color: #854d0e;
                             border-radius: 8px;
                             padding: 12px 16px;
-                            font-size: 13px;
+                            font-size: 12.5px;
                             font-weight: 800;
                             line-height: 1.6;
-                            margin-top: 24px;
+                            margin-top: 22px;
                         }
 
                         @media print {
-                            body { padding: 10px 20px; }
+                            body { padding: 0 !important; }
                             .print-actions-bar { display: none !important; }
                         }
                     </style>
@@ -1288,14 +1335,26 @@
                     </div>
 
                     <div class="header-wrap">
-                        <h2>جامعة عمان العربية</h2>
-                        <h3>كلية الشريعة — قسم الفقه وأصوله</h3>
-                        <p>كشف رسمي بالمساقات المجتازة (الخطة الشجرية)</p>
+                        <!-- شعار كلية الشريعة الرسمي الذي أرفقته -->
+                        <div class="logo-box-sharia" title="كلية الشريعة">
+                            <img class="logo-img" src="${shariaLogoUrl}" alt="شعار كلية الشريعة">
+                        </div>
+
+                        <div class="header-titles">
+                            <h2>جامعة عمان العربية</h2>
+                            <h3>كلية الشريعة — قسم الفقه وأصوله</h3>
+                            <p>كشف رسمي بالمساقات المجتازة (الخطة الشجرية)</p>
+                        </div>
+
+                        <!-- شعار جامعة عمان العربية الرسمي الذي أرفقته -->
+                        <div class="logo-box" title="جامعة عمان العربية">
+                            <img class="logo-img" src="${aauLogoUrl}" alt="شعار جامعة عمان العربية">
+                        </div>
                     </div>
 
                     <div class="student-banner">
                         <div><strong>اسم الطالب الرباعي:</strong> ${studentName}</div>
-                        <div><strong>تاريخ الإصدار:</strong> <span style="direction: ltr; display: inline-block; font-family: monospace; font-size: 15px;">${englishDateNumbers}</span></div>
+                        <div><strong>تاريخ الإصدار:</strong> <span style="direction: ltr; display: inline-block; font-family: monospace; font-size: 15px; margin-right: 4px;">${englishDateNumbers}</span></div>
                     </div>
 
                     <div class="summary-grid">
@@ -1305,7 +1364,7 @@
                         </div>
                     </div>
 
-                    <h3 style="font-size: 16px; font-weight: 900; margin-bottom: 10px; color: #1e293b;">
+                    <h3 style="font-size: 15px; font-weight: 900; margin-bottom: 8px; color: #1e293b;">
                         المساقات المنجزة بنجاح في الشجرة (${passedCourses.length} مساق):
                     </h3>
 
@@ -1315,7 +1374,7 @@
                             <tr>
                                 <th style="width: 50px;">#</th>
                                 <th>اسم المادة</th>
-                                <th style="width: 110px; text-align: center;">الساعات المعتمدة</th>
+                                <th style="width: 120px; text-align: center;">الساعات المعتمدة</th>
                                 <th style="width: 90px; text-align: center;">الحالة</th>
                             </tr>
                         </thead>
@@ -1333,7 +1392,7 @@
                     `}
 
                     <div class="exclusion-notice">
-                        📌 <strong>تنبيه ومعلومة أكاديمية:</strong> قائمة المواد المذكورة أعلاه خاصة بمساقات التخصص التي اجتازها الطالب في الخطة الشجرية، وتم استثناء متطلبات الجامعة (الإجبارية والاختيارية) والمواد الحرة من هذا الكشف.
+                        📌 <strong>تنبيه ومعلومة أكاديمية:</strong> قائمة المواد المذكورة أعلاه خاصة بمساقات التخصص التي اجتازها الطالب في الخطة الشجرية، وتم استثناء متطلبات الجامعة (الإجبارية والاختيارية) والمواد الحرة من هذا الكشف ومن شريط الإنجاز.
                     </div>
                 </body>
                 </html>
