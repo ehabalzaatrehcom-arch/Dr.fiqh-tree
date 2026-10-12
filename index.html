@@ -326,6 +326,18 @@
         }
 
         .box.search-matched { outline: 2.5px solid #0284c7; transform: scale(1.02); z-index: 10; }
+        .box.available-course-glow {
+            outline: 2.5px solid #10b981 !important;
+            box-shadow: 0 0 0 3px rgba(16,185,129,.18), 0 0 14px rgba(16,185,129,.45) !important;
+            animation: availablePulse 1.8s ease-in-out infinite;
+            opacity: 1 !important;
+            filter: none !important;
+            pointer-events: auto !important;
+        }
+        @keyframes availablePulse {
+            0%, 100% { box-shadow: 0 0 0 2px rgba(16,185,129,.12), 0 0 8px rgba(16,185,129,.25); }
+            50% { box-shadow: 0 0 0 4px rgba(16,185,129,.22), 0 0 17px rgba(16,185,129,.55); }
+        }
 
         @keyframes pathGlowPulse { 
             0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.85); transform: scale(1.02); } 
@@ -511,7 +523,9 @@
             .btn-reset-red, .btn-in-search { width: 100%; justify-content: center; } 
             .three-arrows-container { display: none; } 
             .grid-main-fiqh, .grid-5, .grid-free { grid-template-columns: 1fr; gap: 8px; } 
-            .grid-osool-subs { grid-template-columns: 1fr; gap: 6px; } 
+            .grid-osool-subs { grid-template-columns: 1fr; gap: 6px; }
+            #reportConfigModal .modal-box > div:last-child { flex-wrap: wrap; }
+            #reportConfigModal .modal-box > div:last-child .btn { min-width: 100%; } 
         }
     </style>
 </head>
@@ -875,6 +889,7 @@
             
             <div style="display: flex; gap: 10px; margin-top: 16px;">
                 <button class="btn" style="flex: 1; justify-content: center; padding: 11px;" onclick="generateOfficialReport()">🖨️ إصدار وطباعة التقرير</button>
+                <button class="btn" style="background: #ef4444; color: #fff; justify-content: center;" onclick="clearReportInformation()">🗑️ حذف المعلومات</button>
                 <button class="btn" style="background: #e2e8f0; color: #334155;" onclick="closeModal('reportConfigModal')">إلغاء</button>
             </div>
         </div>
@@ -914,6 +929,15 @@
         let showAvailableState = false;
         let deferredPrompt = null;
         let activeHighlightCourseId = null;
+        let reportGrades = {};
+        try {
+            reportGrades = JSON.parse(localStorage.getItem('fiqhPlanReportGrades') || '{}') || {};
+        } catch (e) { reportGrades = {}; }
+
+        function saveReportGrade(courseId, grade) {
+            reportGrades[courseId] = grade;
+            localStorage.setItem('fiqhPlanReportGrades', JSON.stringify(reportGrades));
+        }
 
         const prerequisitesMap = {
             'box-osool-1': 'box-madkhal-fiqh',
@@ -1006,6 +1030,13 @@
                 return;
             }
             toggleCourse(courseId, prereqId, prereqName, isElective);
+            showAvailableState = true;
+            const availableBtn = document.getElementById('btn-toggle-available');
+            if (availableBtn) {
+                availableBtn.classList.add('active-filter');
+                availableBtn.textContent = '🔒 إخفاء المتاح';
+            }
+            applyAvailableHighlight();
         }
 
         let touchTimer = null;
@@ -1173,26 +1204,24 @@
             } else {
                 btn.classList.remove('active-filter');
                 btn.textContent = '🔓 المتاح للتسجيل';
-                document.querySelectorAll('.box').forEach(b => b.classList.remove('dimmed-unavailable'));
+                document.querySelectorAll('.box').forEach(b => b.classList.remove('dimmed-unavailable', 'available-course-glow'));
             }
         }
 
         function applyAvailableHighlight() {
             document.querySelectorAll('.box').forEach(box => {
-                box.classList.remove('dimmed-unavailable');
-                if (box.classList.contains('completed')) {
-                    box.classList.add('dimmed-unavailable');
-                    return;
-                }
+                box.classList.remove('dimmed-unavailable', 'available-course-glow');
+                if (box.classList.contains('completed')) return;
+
                 const prereqId = prerequisitesMap[box.id];
-                let isAvailable = false;
-                if (!prereqId) {
-                    isAvailable = true;
+                const prereqEl = prereqId ? document.getElementById(prereqId) : null;
+                const isAvailable = !prereqId || (prereqEl && prereqEl.classList.contains('completed'));
+
+                if (isAvailable) {
+                    box.classList.add('available-course-glow');
                 } else {
-                    const prereqEl = document.getElementById(prereqId);
-                    if (prereqEl && prereqEl.classList.contains('completed')) isAvailable = true;
+                    box.classList.add('dimmed-unavailable');
                 }
-                if (!isAvailable) box.classList.add('dimmed-unavailable');
             });
         }
 
@@ -1255,16 +1284,36 @@
 
                 row.innerHTML = `
                     <span class="grade-item-name">${title}</span>
-                    <select class="grade-item-select" data-course="${title}">
+                    <select class="grade-item-select" data-course-id="${b.id}">
                         ${selectOptions}
                     </select>
                 `;
+                const select = row.querySelector('select');
+                select.value = Object.prototype.hasOwnProperty.call(reportGrades, b.id) ? reportGrades[b.id] : 'مسجل';
+                select.addEventListener('change', () => saveReportGrade(b.id, select.value));
                 wrapper.appendChild(row);
             });
 
             document.getElementById('repMajorHoursAuto').value = majorHours + " ساعة معتمدة";
             document.getElementById('reportConfigModal').style.display = 'flex';
             document.getElementById('repStudentName').focus();
+        }
+
+        function clearReportInformation() {
+            if (!confirm('هل تريد حذف جميع المعلومات المدخلة في التقرير والعلامات المحفوظة؟')) return;
+            ['repStudentName', 'repGPA'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            document.getElementById('repUniHoursInput').value = '0';
+            document.getElementById('repSemesterSelect').selectedIndex = 0;
+            document.getElementById('repYearSelect').value = '2026/2027';
+            document.getElementById('repTypeSelect').value = 'without';
+            toggleGradesInputSection('without');
+            reportGrades = {};
+            localStorage.removeItem('fiqhPlanReportGrades');
+            document.querySelectorAll('.grade-item-select').forEach(select => { select.value = 'أ'; });
+            alert('تم حذف معلومات التقرير والعلامات المحفوظة.');
         }
 
         function toggleGradesInputSection(val) {
@@ -1297,7 +1346,7 @@
                 let statusColor = '#15803d';
 
                 if (reportType === 'with') {
-                    const selEl = document.querySelector(`.grade-item-select[data-course="${title}"]`);
+                    const selEl = document.querySelector(`.grade-item-select[data-course-id="${b.id}"]`);
                     if (selEl) {
                         gradeVal = selEl.value;
                         if (gradeVal === 'مسجل') {
@@ -1318,6 +1367,20 @@
 
                 passedCourses.push({ title, hours, grade: gradeVal, status: statusVal, color: statusColor });
             });
+
+            if (reportType === 'with') {
+                const gradeRank = {
+                    'أ': 13, 'أ-': 12, 'ب+': 11, 'ب': 10, 'ب-': 9,
+                    'ج+': 8, 'ج': 7, 'ج-': 6, 'د+': 5, 'د': 4, 'د-': 3, 'هـ': 2,
+                    '-': 1, 'مسجل': 0
+                };
+                passedCourses.sort((a, b) => {
+                    const aRegistered = a.grade === 'مسجل' ? 1 : 0;
+                    const bRegistered = b.grade === 'مسجل' ? 1 : 0;
+                    if (aRegistered !== bRegistered) return aRegistered - bRegistered;
+                    return (gradeRank[b.grade] ?? -1) - (gradeRank[a.grade] ?? -1) || a.title.localeCompare(b.title, 'ar');
+                });
+            }
 
             closeModal('reportConfigModal');
 
@@ -1393,8 +1456,10 @@
                             gap: 15px;
                         }
                         .logo-box {
-                            width: 140px;
+                            width: 180px;
+                            max-width: 180px;
                             height: 85px;
+                            overflow: hidden;
                             display: flex;
                             align-items: center;
                             justify-content: center;
@@ -1494,13 +1559,13 @@
                         </div>
 
                         <div class="logo-box" title="جامعة عمان العربية">
-                            <svg viewBox="0 0 200 85" width="140" height="85">
-                                <polygon points="160,10 185,24 135,24" fill="#003366"/>
-                                <polygon points="185,24 185,55 175,55 175,30 160,22 145,30 145,55 135,55 135,24" fill="#0077c8"/>
-                                <rect x="152" y="36" width="16" height="24" fill="#f58220"/>
-                                <polygon points="160,28 168,34 152,34" fill="#f58220"/>
-                                <text x="10" y="44" font-size="21" font-weight="900" fill="#f58220">جامعة عمان العربية</text>
-                                <text x="10" y="62" font-size="10.5" font-weight="900" fill="#003366" letter-spacing="1">AMMAN ARAB UNIVERSITY</text>
+                            <svg viewBox="0 0 220 85" width="180" height="85" style="max-width:100%; overflow:hidden;">
+                                <polygon points="190,10 210,23 170,23" fill="#003366"/>
+                                <polygon points="210,23 210,53 202,53 202,29 190,22 178,29 178,53 170,53 170,23" fill="#0077c8"/>
+                                <rect x="184" y="35" width="12" height="20" fill="#f58220"/>
+                                <polygon points="190,28 197,33 183,33" fill="#f58220"/>
+                                <text x="4" y="42" font-size="17" font-weight="900" fill="#f58220">جامعة عمان العربية</text>
+                                <text x="4" y="59" font-size="8.5" font-weight="900" fill="#003366" letter-spacing=".5">AMMAN ARAB UNIVERSITY</text>
                             </svg>
                         </div>
                     </div>
@@ -1552,6 +1617,24 @@
                         </tbody>
                     </table>
                     `}
+                    <div class="report-note">
+                        ملاحظة: لم يتم إدراج متطلبات الجامعة الإجبارية والاختيارية، والمواد الحرة ضمن هذا التقرير؛ يقتصر التقرير على مواد التخصص الظاهرة في الخطة الشجرية.
+                    </div>
+                    <style>
+                        .report-note {
+                            margin-top: 18px;
+                            padding: 10px 12px;
+                            border: 1px solid #d97706;
+                            border-right: 4px solid #d97706;
+                            border-radius: 7px;
+                            background: #fffbeb;
+                            color: #78350f;
+                            font-size: 12px;
+                            font-weight: 800;
+                            line-height: 1.7;
+                            break-inside: avoid;
+                        }
+                    </style>
                 </body>
                 </html>
             `);
@@ -1579,6 +1662,13 @@
         window.addEventListener('DOMContentLoaded', () => {
             updateDarkModeBtnText(document.body.classList.contains('dark-mode'));
             loadProgress();
+            showAvailableState = true;
+            const availableBtn = document.getElementById('btn-toggle-available');
+            if (availableBtn) {
+                availableBtn.classList.add('active-filter');
+                availableBtn.textContent = '🔒 إخفاء المتاح';
+            }
+            applyAvailableHighlight();
         });
     </script>
 
