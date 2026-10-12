@@ -578,10 +578,6 @@
         }
 
         .modal-title { font-size: 20px; font-weight: 900; margin-bottom: 12px; color: #0284c7; text-align: center; }
-        .modal-btn-close {
-            background: #64748b; color: #ffffff; border: none; font-size: 13.5px; font-weight: 800;
-            padding: 8px 22px; border-radius: 20px; cursor: pointer; display: block; margin: 12px auto 0 auto;
-        }
 
         .student-name-input {
             width: 100%;
@@ -1364,7 +1360,6 @@
             if (btn) btn.textContent = isDark ? '☀️ النمط النهاري' : '🌙 النمط الليلي';
         }
 
-        // فتح نافذة إدخال الاسم
         function openReportModal() {
             document.getElementById('reportNameModal').style.display = 'flex';
             document.getElementById('studentFullNameInput').focus();
@@ -1380,7 +1375,6 @@
             printPassedCoursesReport(studentName);
         }
 
-        // طباعة تقرير المواد المجتازة مع اسم الطالب الرباعي والملاحظة
         function printPassedCoursesReport(studentName) {
             const passedCourses = [];
             document.querySelectorAll('.box.completed').forEach(b => {
@@ -1476,15 +1470,6 @@
                             line-height: 1.6;
                             margin-top: 24px;
                         }
-
-                        .footer-note {
-                            margin-top: 20px;
-                            padding-top: 10px;
-                            border-top: 1px dashed #cbd5e1;
-                            font-size: 12px;
-                            color: #64748b;
-                            text-align: center;
-                        }
                     </style>
                 </head>
                 <body>
@@ -1500,7 +1485,7 @@
                     </div>
 
                     <div class="student-banner">
-                        <div>🎓 <strong>اسم الطالب الرباعي:</strong> ${studentName}</div>
+                        <div><strong>اسم الطالب الرباعي:</strong> ${studentName}</div>
                         <div>الدرجة: بكالوريوس في الفقه وأصوله</div>
                     </div>
 
@@ -1546,13 +1531,8 @@
                     </table>
                     `}
 
-                    <!-- التنبيه الخاص باستثناء متطلبات الجامعة والمواد الحرة -->
                     <div class="exclusion-notice">
                         📌 <strong>تنبيه ومعلومة أكاديمية:</strong> قائمة المواد المذكورة أعلاه خاصة بمساقات التخصص التي اجتازها الطالب في الخطة الشجرية، وقد تم استثناء متطلبات الجامعة الإجبارية والاختيارية والمواد الحرة من هذا الكشف التفصيلي، ويتم احتساب ساعاتها في المجموع التراكمي أعلاه بشكل منفصل.
-                    </div>
-
-                    <div class="footer-note">
-                        تم استخراج هذا الكشف عبر موقع الخطة الشجرية التفاعلية لتخصص الفقه وأصوله 🌿
                     </div>
                 </body>
                 </html>
