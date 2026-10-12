@@ -432,29 +432,68 @@
         .modal-box {
             background: var(--wrapper-bg); color: var(--text-main);
             border: 2px solid var(--border-color); border-radius: 18px;
-            max-width: 480px; width: 92%; padding: 22px;
+            max-width: 520px; width: 92%; padding: 22px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.25);
             max-height: 90vh; overflow-y: auto; text-align: right;
         }
 
         .modal-title { font-size: 20px; font-weight: 900; margin-bottom: 12px; color: #0284c7; text-align: center; }
 
-        .student-name-input {
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-top: 10px;
+            margin-bottom: 4px;
+        }
+
+        .modal-input {
             width: 100%;
-            padding: 10px 14px;
+            padding: 9px 12px;
             border-radius: 10px;
-            border: 2px solid #0284c7;
-            font-size: 14px;
+            border: 1.5px solid #cbd5e1;
+            font-size: 13.5px;
             font-weight: 700;
             background: var(--section-bg);
             color: var(--text-main);
             outline: none;
-            margin-top: 8px;
-            margin-bottom: 14px;
             transition: all 0.2s;
         }
-        .student-name-input:focus {
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.25);
+        .modal-input:focus {
+            border-color: #0284c7;
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2);
+        }
+
+        .grades-container {
+            max-height: 240px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin-top: 8px;
+            background: var(--section-bg);
+        }
+        .grade-row-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--border-color);
+            gap: 10px;
+        }
+        .grade-row-item:last-child { border-bottom: none; }
+        .grade-item-name { font-size: 12.5px; font-weight: 800; flex: 1; }
+        .grade-item-input {
+            width: 75px;
+            text-align: center;
+            padding: 5px;
+            border-radius: 6px;
+            border: 1.5px solid #cbd5e1;
+            font-size: 13px;
+            font-weight: 800;
+            background: var(--wrapper-bg);
+            color: var(--text-main);
         }
 
         @media print {
@@ -519,7 +558,7 @@
             <div class="buttons-group">
                 <button class="btn" onclick="installAppDirectly()">📲 تثبيت كتطبيق</button>
                 <button class="btn" onclick="openShareModal()">📲 مشاركة</button>
-                <button class="btn" onclick="openReportModal()">📄 تقرير بالمواد المجتازة</button>
+                <button class="btn" onclick="openReportChoiceModal()">📄 تقرير بالمواد المجتازة</button>
                 <button class="btn" onclick="window.print()">🖨️ طباعة الخطة</button>
                 <button class="btn" id="btn-dark-mode" onclick="toggleDarkMode()">🌙 النمط الليلي</button>
             </div>
@@ -759,7 +798,7 @@
             </div>
         </div>
 
-        <!-- دليل الألوان -->
+        <!-- دليل الألوان بدون النصيحة -->
         <div class="legend">
             <div class="legend-item"><span class="badge" style="background:#e0f2fe; border:1px solid #0284c7;"></span> مادة أساسية (متطلب سابق)</div>
             <div class="legend-item"><span class="badge" style="background:#f0fdf4; border:1px solid #86efac;"></span> متطلب إجباري تخصص</div>
@@ -774,18 +813,48 @@
         </div>
     </div>
 
-    <!-- نافذة إدخال اسم الطالب قبل استخراج التقرير -->
-    <div class="modal-overlay" id="reportNameModal">
-        <div class="modal-box" style="text-align: right;">
-            <div class="modal-title">📄 طباعة تقرير المواد المجتازة</div>
-            <p style="font-size: 13.5px; font-weight: 700; color: #334155; line-height: 1.6;">
-                يُرجى إدخال اسم الطالب الرباعي ليظهر بشكل رسمي ومعتمد في ترويسة التقرير:
-            </p>
-            <input type="text" id="studentFullNameInput" class="student-name-input" placeholder="اكتب اسم الطالب الرباعي هنا...">
+    <!-- نافذة إعداد واستخراج التقرير التفاعلية الشاملة -->
+    <div class="modal-overlay" id="reportConfigModal">
+        <div class="modal-box">
+            <div class="modal-title">📄 إعداد كشف المساقات المجتازة</div>
             
-            <div style="display: flex; gap: 10px;">
-                <button class="btn" style="flex: 1; justify-content: center; padding: 10px;" onclick="confirmAndPrintReport()">🖨️ متابعة واستخراج التقرير</button>
-                <button class="btn" style="background: #e2e8f0; color: #334155;" onclick="closeModal('reportNameModal')">إلغاء</button>
+            <label class="form-label">اسم الطالب الرباعي *</label>
+            <input type="text" id="repStudentName" class="modal-input" placeholder="اكتب اسم الطالب الرباعي...">
+
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 8px;">
+                <div>
+                    <label class="form-label">الفصل والسنة الدراسية</label>
+                    <input type="text" id="repSemesterYear" class="modal-input" placeholder="مثال: الفصل الأول 2026/2027">
+                </div>
+                <div>
+                    <label class="form-label">المعدل التراكمي (إن وجد)</label>
+                    <input type="text" id="repGPA" class="modal-input" placeholder="مثال: 3.65 أو 88%">
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <div>
+                    <label class="form-label">إجمالي الساعات المنجزة (من 132)</label>
+                    <input type="number" id="repHours132" class="modal-input" placeholder="مثال: 75">
+                </div>
+                <div>
+                    <label class="form-label">نوع التقرير المطلوبة</label>
+                    <select id="repTypeSelect" class="modal-input" onchange="toggleGradesInputSection(this.value)">
+                        <option value="without">بدون علامات (المساقات فقط)</option>
+                        <option value="with">مع علامات المساقات</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- قسم إدخال العلامات يظهر فقط في حال اختيار مع علامات -->
+            <div id="gradesInputSection" style="display: none; margin-top: 10px;">
+                <label class="form-label" style="color: #0284c7;">✍️ أدخل علامة كل مساق منجز (رقم أو رمز):</label>
+                <div class="grades-container" id="gradesRowsWrapper"></div>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 16px;">
+                <button class="btn" style="flex: 1; justify-content: center; padding: 11px;" onclick="generateOfficialReport()">🖨️ إصدار وطباعة التقرير</button>
+                <button class="btn" style="background: #e2e8f0; color: #334155;" onclick="closeModal('reportConfigModal')">إلغاء</button>
             </div>
         </div>
     </div>
@@ -1129,36 +1198,69 @@
             if (btn) btn.textContent = isDark ? '☀️ النمط النهاري' : '🌙 النمط الليلي';
         }
 
-        function openReportModal() {
-            document.getElementById('reportNameModal').style.display = 'flex';
-            document.getElementById('studentFullNameInput').focus();
-        }
+        // نافذة إعداد التقرير
+        function openReportChoiceModal() {
+            const completedBoxes = document.querySelectorAll('.box.completed');
+            const wrapper = document.getElementById('gradesRowsWrapper');
+            wrapper.innerHTML = '';
 
-        function confirmAndPrintReport() {
-            const studentName = document.getElementById('studentFullNameInput').value.trim();
-            if (!studentName) {
-                alert('⚠️ يُرجى كتابة اسم الطالب الرباعي أولاً قبل المتابعة.');
-                return;
-            }
-            closeModal('reportNameModal');
-            printPassedCoursesReport(studentName);
-        }
-
-        function printPassedCoursesReport(studentName) {
-            const passedCourses = [];
-            document.querySelectorAll('.box.completed').forEach(b => {
-                passedCourses.push({
-                    title: b.querySelector('.box-title-text').textContent.trim(),
-                    hours: b.getAttribute('data-hours') || '3'
-                });
+            completedBoxes.forEach(b => {
+                const title = b.querySelector('.box-title-text').textContent.trim();
+                const row = document.createElement('div');
+                row.className = 'grade-row-item';
+                row.innerHTML = `
+                    <span class="grade-item-name">${title}</span>
+                    <input type="text" class="grade-item-input" data-course="${title}" placeholder="العلامة">
+                `;
+                wrapper.appendChild(row);
             });
 
-            // رابط شعار جامعة عمان العربية الرسمي المعتمد
+            // اقتراح الساعات التراكمية بناءً على ساعات التخصص المنجزة
+            document.getElementById('repHours132').value = majorHours;
+
+            document.getElementById('reportConfigModal').style.display = 'flex';
+            document.getElementById('repStudentName').focus();
+        }
+
+        function toggleGradesInputSection(val) {
+            const sec = document.getElementById('gradesInputSection');
+            sec.style.display = (val === 'with') ? 'block' : 'none';
+        }
+
+        function generateOfficialReport() {
+            const studentName = document.getElementById('repStudentName').value.trim();
+            if (!studentName) {
+                alert('⚠️ يُرجى إدخال اسم الطالب الرباعي أولاً.');
+                return;
+            }
+
+            const semesterYear = document.getElementById('repSemesterYear').value.trim();
+            const gpa = document.getElementById('repGPA').value.trim();
+            const totalHoursPassed = document.getElementById('repHours132').value.trim() || majorHours;
+            const reportType = document.getElementById('repTypeSelect').value;
+
+            // جمع بيانات المواد المنجزة والعلامات
+            const passedCourses = [];
+            document.querySelectorAll('.box.completed').forEach(b => {
+                const title = b.querySelector('.box-title-text').textContent.trim();
+                const hours = b.getAttribute('data-hours') || '3';
+                let gradeVal = '-';
+                if (reportType === 'with') {
+                    const inputEl = document.querySelector(`.grade-item-input[data-course="${title}"]`);
+                    if (inputEl && inputEl.value.trim()) {
+                        gradeVal = inputEl.value.trim();
+                    }
+                }
+                passedCourses.push({ title, hours, grade: gradeVal });
+            });
+
+            closeModal('reportConfigModal');
+
+            // الشعارات الرسمية التي أرفقتها بالدقة الأصلية
             const aauLogoUrl = "https://upload.wikimedia.org/wikipedia/commons/3/36/20231126101553%21%D8%B4%D8%B9%D8%A7%D8%B1_%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%B9%D9%85%D8%A7%D9%86_%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9.png";
-            // رابط شعار كلية الشريعة الرسمي (جامعة عمان العربية 2023)
             const shariaLogoUrl = "https://www.aau.edu.jo/sites/default/files/2023-11/%D8%B4%D8%B9%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D9%83%D9%84%D9%8A%D8%A7%D8%AA-2023.png";
 
-            // تاريخ الإصدار: اليوم/الشهر/السنة بأرقام إنجليزية
+            // تاريخ الإصدار بالأرقام الإنجليزية
             const now = new Date();
             const day = String(now.getDate()).padStart(2, '0');
             const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -1169,10 +1271,10 @@
             printWindow.document.write(`
                 <html dir="rtl" lang="ar">
                 <head>
-                    <title>تقرير بالمواد المجتازة - ${studentName}</title>
+                    <title>كشف علامات ومساقات - ${studentName}</title>
                     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;900&display=swap" rel="stylesheet">
                     <style>
-                        /* منع ظهور اسم الصفحة أو التاريخ التلقائي أو الروابط في أعلى وأسفل الصفحة المطبوعة */
+                        /* منع طباعة أي نصوص أو تواريخ أو روابط إضافية أعلى وأسفل الصفحة */
                         @page {
                             margin: 15mm 15mm 15mm 15mm;
                             size: auto;
@@ -1225,7 +1327,7 @@
                         .header-wrap {
                             border-bottom: 2.5px solid #0284c7;
                             padding-bottom: 15px;
-                            margin-bottom: 20px;
+                            margin-bottom: 18px;
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
@@ -1260,42 +1362,39 @@
                         .header-titles h3 { margin: 3px 0 0 0; font-size: 15px; font-weight: 800; color: #0284c7; }
                         .header-titles p { margin: 3px 0 0 0; font-size: 12.5px; font-weight: 700; color: #64748b; }
                         
-                        .student-banner {
-                            background: #f0fdf4;
-                            border: 1.5px solid #86efac;
-                            border-radius: 10px;
-                            padding: 12px 18px;
-                            margin-bottom: 20px;
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            font-size: 14.5px;
+                        /* بطاقة المعلومات الأكاديمية الشاملة والمدمجة */
+                        .info-summary-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-bottom: 18px;
+                            background: #f8fafc;
+                            border: 1.5px solid #cbd5e1;
+                            border-radius: 8px;
+                            overflow: hidden;
+                            font-size: 13.5px;
+                        }
+                        .info-summary-table td {
+                            padding: 8px 12px;
+                            border: 1px solid #e2e8f0;
+                            font-weight: 700;
+                        }
+                        .info-summary-table .lbl {
+                            background: #f1f5f9;
+                            color: #334155;
                             font-weight: 800;
-                            color: #166534;
+                            width: 22%;
+                        }
+                        .info-summary-table .val {
+                            color: #0f172a;
                         }
 
-                        .summary-grid {
-                            display: flex;
-                            justify-content: center;
-                            margin-bottom: 20px;
-                        }
-                        .summary-box {
-                            background: #f8fafc;
-                            border: 1.5px solid #0284c7;
-                            border-radius: 10px;
-                            padding: 10px 35px;
-                            text-align: center;
-                            min-width: 250px;
-                        }
-                        .summary-box .num { font-size: 22px; font-weight: 900; color: #0284c7; }
-                        .summary-box .lbl { font-size: 12.5px; font-weight: 800; color: #64748b; margin-top: 3px; }
-                        table {
+                        table.courses-table {
                             width: 100%;
                             border-collapse: collapse;
                             margin-top: 10px;
                             font-size: 13px;
                         }
-                        th {
+                        table.courses-table th {
                             background: #f1f5f9;
                             color: #1e293b;
                             font-weight: 800;
@@ -1303,23 +1402,23 @@
                             border-bottom: 2px solid #cbd5e1;
                             text-align: right;
                         }
-                        td {
+                        table.courses-table td {
                             padding: 8px 12px;
                             border-bottom: 1px solid #e2e8f0;
                             font-weight: 700;
                         }
-                        tr:nth-child(even) td { background: #f8fafc; }
+                        table.courses-table tr:nth-child(even) td { background: #f8fafc; }
                         
                         .exclusion-notice {
                             background: #fefce8;
                             border: 1.5px solid #fde047;
                             color: #854d0e;
                             border-radius: 8px;
-                            padding: 12px 16px;
+                            padding: 10px 14px;
                             font-size: 12.5px;
                             font-weight: 800;
                             line-height: 1.6;
-                            margin-top: 22px;
+                            margin-top: 20px;
                         }
 
                         @media print {
@@ -1330,12 +1429,11 @@
                 </head>
                 <body>
                     <div class="print-actions-bar">
-                        <span style="font-weight: 800; font-size: 13.5px; color: #334155;">جاهز للطباعة أو الحفظ كملف PDF:</span>
+                        <span style="font-weight: 800; font-size: 13.5px; color: #334155;">كشف رسمي جاهز للطباعة:</span>
                         <button class="btn-print-action" onclick="window.print()">🖨️ طباعة التقرير الآن</button>
                     </div>
 
                     <div class="header-wrap">
-                        <!-- شعار كلية الشريعة الرسمي الذي أرفقته -->
                         <div class="logo-box-sharia" title="كلية الشريعة">
                             <img class="logo-img" src="${shariaLogoUrl}" alt="شعار كلية الشريعة">
                         </div>
@@ -1343,39 +1441,49 @@
                         <div class="header-titles">
                             <h2>جامعة عمان العربية</h2>
                             <h3>كلية الشريعة — قسم الفقه وأصوله</h3>
-                            <p>كشف رسمي بالمساقات المجتازة (الخطة الشجرية)</p>
+                            <p>كشف المساقات المجتازة (الخطة الدراسية)</p>
                         </div>
 
-                        <!-- شعار جامعة عمان العربية الرسمي الذي أرفقته -->
                         <div class="logo-box" title="جامعة عمان العربية">
                             <img class="logo-img" src="${aauLogoUrl}" alt="شعار جامعة عمان العربية">
                         </div>
                     </div>
 
-                    <div class="student-banner">
-                        <div><strong>اسم الطالب الرباعي:</strong> ${studentName}</div>
-                        <div><strong>تاريخ الإصدار:</strong> <span style="direction: ltr; display: inline-block; font-family: monospace; font-size: 15px; margin-right: 4px;">${englishDateNumbers}</span></div>
-                    </div>
+                    <!-- شريط المعلومات المدمج المنظم والموزع أفقياً -->
+                    <table class="info-summary-table">
+                        <tr>
+                            <td class="lbl">اسم الطالب الرباعي:</td>
+                            <td class="val"><strong>${studentName}</strong></td>
+                            <td class="lbl">تاريخ الإصدار:</td>
+                            <td class="val"><span style="direction: ltr; display: inline-block; font-family: monospace;">${englishDateNumbers}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="lbl">الفصل والسنة الدراسية:</td>
+                            <td class="val">${semesterYear ? semesterYear : 'غير محدد'}</td>
+                            <td class="lbl">المعدل التراكمي:</td>
+                            <td class="val" style="color: #0284c7; font-weight: 900;">${gpa ? gpa : '—'}</td>
+                        </tr>
+                        <tr>
+                            <td class="lbl">الساعات المنجزة (من 132):</td>
+                            <td class="val" style="color: #15803d; font-weight: 900;">${totalHoursPassed} / 132 ساعة</td>
+                            <td class="lbl">ساعات التخصص المنجزة:</td>
+                            <td class="val">${majorHours} ساعة</td>
+                        </tr>
+                    </table>
 
-                    <div class="summary-grid">
-                        <div class="summary-box">
-                            <div class="num">${majorHours} ساعة</div>
-                            <div class="lbl">مجموع الساعات المنجزة</div>
-                        </div>
-                    </div>
-
-                    <h3 style="font-size: 15px; font-weight: 900; margin-bottom: 8px; color: #1e293b;">
-                        المساقات المنجزة بنجاح في الشجرة (${passedCourses.length} مساق):
+                    <h3 style="font-size: 14.5px; font-weight: 900; margin-bottom: 8px; color: #1e293b;">
+                        المساقات المنجزة بنجاح (${passedCourses.length} مساق):
                     </h3>
 
-                    ${passedCourses.length === 0 ? '<p style="font-weight:700; color:#ef4444;">لم يتم تحديد أي مادة منجزة في الشجرة حتى الآن.</p>' : `
-                    <table>
+                    ${passedCourses.length === 0 ? '<p style="font-weight:700; color:#ef4444;">لم يتم تحديد أي مساق منجز حتى الآن.</p>' : `
+                    <table class="courses-table">
                         <thead>
                             <tr>
-                                <th style="width: 50px;">#</th>
-                                <th>اسم المادة</th>
-                                <th style="width: 120px; text-align: center;">الساعات المعتمدة</th>
-                                <th style="width: 90px; text-align: center;">الحالة</th>
+                                <th style="width: 45px;">#</th>
+                                <th>اسم المساق</th>
+                                <th style="width: 110px; text-align: center;">الساعات المعتمدة</th>
+                                ${reportType === 'with' ? '<th style="width: 90px; text-align: center;">العلامة</th>' : ''}
+                                <th style="width: 85px; text-align: center;">الحالة</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1384,6 +1492,7 @@
                                     <td>${i + 1}</td>
                                     <td>${c.title}</td>
                                     <td style="text-align: center;">${c.hours} ساعات</td>
+                                    ${reportType === 'with' ? `<td style="text-align: center; font-weight: 900; color: #0284c7;">${c.grade}</td>` : ''}
                                     <td style="text-align: center; color: #15803d;">مكتمل</td>
                                 </tr>
                             `).join('')}
@@ -1392,7 +1501,7 @@
                     `}
 
                     <div class="exclusion-notice">
-                        📌 <strong>تنبيه ومعلومة أكاديمية:</strong> قائمة المواد المذكورة أعلاه خاصة بمساقات التخصص التي اجتازها الطالب في الخطة الشجرية، وتم استثناء متطلبات الجامعة (الإجبارية والاختيارية) والمواد الحرة من هذا الكشف ومن شريط الإنجاز.
+                        📌 <strong>تنبيه ومعلومة أكاديمية:</strong> قائمة المواد المذكورة أعلاه خاصة بمساقات التخصص التي اجتازها الطالب في الخطة الشجرية، وتم استثناء متطلبات الجامعة (الإجبارية والاختيارية) والمواد الحرة من هذا الكشف.
                     </div>
                 </body>
                 </html>
